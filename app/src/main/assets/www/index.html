@@ -1,181 +1,1513 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl" data-ui="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Viewer</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-color: #a2e897;
-            font-family: Arial, sans-serif;
-            padding-bottom: 20px;
-        }
-
-        .url-bar {
-            background: #222;
-            color: #fff;
-            padding: 8px;
-            display: flex;
-            gap: 5px;
-        }
-        .url-bar input {
-            flex: 1;
-            padding: 6px;
-            font-size: 12px;
-            border: 1px solid #555;
-            background: #fff;
-            color: #000;
-        }
-        .url-bar button {
-            padding: 6px 12px;
-            background: #5ebd50;
-            color: #fff;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .mobile-header {
-            background-color: #5ebd50;
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #4a9e3f;
-        }
-        .mobile-header h1 {
-            color: #fff;
-            font-size: 22px;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px #000;
-        }
-
-        .search-container {
-            padding: 10px;
-            text-align: center;
-        }
-        .search-title {
-            font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-        .search-input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #777;
-            background: #fff;
-            font-size: 14px;
-        }
-
-        .image-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            padding: 10px;
-        }
-
-        .image-card {
-            background: #fff;
-            border: 1px solid #888;
-            padding: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 180px;
-            overflow: hidden;
-        }
-        .image-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .status-msg {
-            grid-column: span 2;
-            text-align: center;
-            padding: 10px;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>بنّاي — صمّم موقعك بدون كتابة كود</title>
+<meta name="description" content="بنّاي: صانع مواقع عربي احترافي. اختر قالباً، عدّل النصوص والألوان والصور، ثم انشر موقعك على GitHub Pages بضغطة زر.">
+<meta name="theme-color" content="#7c5cff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🧱%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0c13;--p1:#11141d;--p2:#161a26;--p3:#1e2331;--line:#262c3d;--tx:#e8ebf4;--mt:#8f98b0;--ac:#7c5cff;--ac2:#22d3ee;--ok:#22c55e;--dn:#ef4444;--sh:0 24px 60px -24px rgba(0,0,0,.7)}
+[data-ui=light]{--bg:#eef0f6;--p1:#ffffff;--p2:#f4f5fa;--p3:#eaedf5;--line:#dde1ed;--tx:#141a2c;--mt:#667088;--sh:0 24px 60px -24px rgba(20,26,44,.28)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Tajawal',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;background:var(--bg);color:var(--tx);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+input,select,textarea{font:inherit;color:inherit}
+svg{flex:none}
+a{color:var(--ac)}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.ib{width:36px;height:36px;border-radius:10px;display:inline-grid;place-items:center;color:var(--mt);transition:.15s;flex:none}
+.ib:hover{background:var(--p3);color:var(--tx)}
+.ib.on{background:color-mix(in srgb,var(--ac) 20%,transparent);color:var(--ac)}
+.ib:disabled{opacity:.3;pointer-events:none}
+.btn-p{background:linear-gradient(135deg,var(--ac),#a06bff);color:#fff;padding:9px 18px;border-radius:11px;font-weight:700;display:inline-flex;align-items:center;gap:8px;box-shadow:0 10px 24px -10px var(--ac);transition:.15s;white-space:nowrap}
+.btn-p:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-p:disabled{opacity:.6;pointer-events:none}
+.btn-s{background:var(--p3);padding:7px 12px;border-radius:9px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:.15s;white-space:nowrap}
+.btn-s:hover{background:color-mix(in srgb,var(--ac) 22%,var(--p3))}
+.btn-s.ghost{background:none;border:1px solid var(--line)}
+.btn-s.dn:hover{background:color-mix(in srgb,var(--dn) 28%,var(--p3))}
+.ltr{direction:ltr;text-align:left}
+/* ===== Dashboard ===== */
+.dash{max-width:1180px;margin:0 auto;padding:0 22px 60px}
+.dh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 0}
+.logo{display:flex;align-items:center;gap:10px}
+.logo .lg{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--ac),var(--ac2));display:grid;place-items:center;font-size:22px;box-shadow:0 10px 24px -10px var(--ac)}
+.logo b{font-size:22px;font-weight:800}
+.logo small{color:var(--mt);font-size:13px;border-inline-start:1px solid var(--line);padding-inline-start:10px}
+.dh-r{display:flex;align-items:center;gap:8px}
+.hero-d{text-align:center;padding:56px 0 46px}
+.hero-d h1{font-size:clamp(2rem,5vw,3.4rem);font-weight:800;line-height:1.25}
+.hero-d h1 span{background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-d p{color:var(--mt);max-width:620px;margin:16px auto 0;font-size:17px}
+.steps{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}
+.steps div{background:var(--p1);border:1px solid var(--line);border-radius:14px;padding:10px 18px;font-weight:600;display:flex;gap:10px;align-items:center}
+.steps b{width:26px;height:26px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:13px}
+.proj-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.proj-h h2{font-size:22px}
+.srch{background:var(--p1);border:1px solid var(--line);border-radius:11px;padding:9px 14px;min-width:230px;outline:none}
+.srch:focus{border-color:var(--ac)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
+.pc{background:var(--p1);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;transition:.2s;position:relative}
+.pc:hover{transform:translateY(-4px);border-color:var(--ac);box-shadow:var(--sh)}
+.thumbwrap{height:176px;overflow:hidden;position:relative;background:#fff;border-bottom:1px solid var(--line);pointer-events:none}
+.thumbwrap iframe{position:absolute;top:0;right:0;width:1280px;height:900px;border:0;transform-origin:top right;transform:scale(var(--k,.2));pointer-events:none}
+.pc-b{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px}
+.pc-b b{display:block;font-size:15px}
+.pc-b small{color:var(--mt);font-size:12.5px}
+.pc-a{display:flex;gap:2px;opacity:0;transition:.15s}
+.pc:hover .pc-a{opacity:1}
+.pc-a .ib{width:30px;height:30px}
+.new-card{border:2px dashed var(--line);background:none;display:grid;place-items:center;min-height:250px;color:var(--mt);text-align:center;gap:8px}
+.new-card:hover{color:var(--ac)}
+.new-card .plus{width:54px;height:54px;border-radius:16px;background:var(--p3);display:grid;place-items:center;margin:0 auto 10px}
+.empty{text-align:center;color:var(--mt);padding:30px}
+.dfoot{margin-top:50px;text-align:center;color:var(--mt);font-size:13px}
+/* ===== Editor ===== */
+.ed{height:100vh;height:100dvh;display:grid;grid-template-columns:292px minmax(0,1fr) 340px;grid-template-rows:56px minmax(0,1fr)}
+.tb{grid-column:1/-1;display:flex;align-items:center;gap:6px;padding:0 12px;background:var(--p1);border-bottom:1px solid var(--line);z-index:50;position:relative}
+.pname{background:transparent;border:1px solid transparent;border-radius:9px;padding:6px 10px;font-weight:700;font-size:15px;width:190px;outline:none;min-width:0}
+.pname:hover{border-color:var(--line)}.pname:focus{border-color:var(--ac);background:var(--p2)}
+.sv{font-size:12.5px;color:var(--mt);white-space:nowrap}
+.sv.ok{color:var(--ok)}.sv.err{color:var(--dn)}
+.sp{flex:1}
+.sep{width:1px;height:22px;background:var(--line);margin:0 4px}
+.tb-d{display:flex;background:var(--p2);border-radius:11px;padding:3px;gap:2px}
+.tb-d .ib{width:34px;height:30px;border-radius:8px}
+.mob{display:none}
+.menu-w{position:relative}
+.menu{position:absolute;top:44px;inset-inline-end:0;min-width:230px;background:var(--p1);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:var(--sh);z-index:80}
+.menu button{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border-radius:9px;text-align:start;font-weight:600;font-size:14px}
+.menu button:hover{background:var(--p3)}
+.menu small{display:block;color:var(--mt);font-weight:400;font-size:12px}
+#lp,#pp{background:var(--p1);display:flex;flex-direction:column;min-height:0}
+#lp{border-inline-end:1px solid var(--line)}
+#pp{border-inline-start:1px solid var(--line)}
+.tabs{display:flex;padding:8px;gap:4px;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;padding:8px 6px;border-radius:9px;font-weight:700;font-size:13px;color:var(--mt)}
+.tabs button.on{background:var(--p3);color:var(--tx)}
+.pbody{flex:1;overflow:auto;padding:14px;min-height:0}
+#stage{background:var(--p2);background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:18px 18px;overflow:auto;display:flex;justify-content:center;padding:16px;min-height:0}
+.fw{width:100%;height:100%;transition:width .3s}
+.fw[data-d=tablet]{width:820px;max-width:100%}
+.fw[data-d=mobile]{width:390px;max-width:100%}
+.fw iframe{width:100%;height:100%;border:0;border-radius:12px;background:#fff;box-shadow:var(--sh)}
+/* library */
+.cat{font-size:12px;font-weight:700;color:var(--mt);margin:16px 2px 8px;letter-spacing:.02em}
+.cat:first-child{margin-top:0}
+.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.blk{background:var(--p2);border:1px solid var(--line);border-radius:12px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;font-weight:600;transition:.15s;text-align:center}
+.blk:hover{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 10%,var(--p2));transform:translateY(-2px)}
+.blk .bi{font-size:22px}
+/* layers */
+.ly{display:flex;align-items:center;gap:8px;padding:8px 8px;border-radius:11px;border:1px solid transparent;cursor:pointer;margin-bottom:4px;background:var(--p2)}
+.ly:hover{border-color:var(--line)}
+.ly.on{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--p2))}
+.ly.off{opacity:.5}
+.ly.over{border-color:var(--ac2);border-style:dashed}
+.ly .grip{color:var(--mt);cursor:grab;display:grid}
+.ly-i{font-size:18px}
+.ly-n{flex:1;min-width:0;font-weight:700;font-size:13.5px;line-height:1.3}
+.ly-n small{display:block;font-weight:400;color:var(--mt);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ly-b{display:flex}
+.ly-b .ib{width:26px;height:26px;border-radius:7px}
+/* fields */
+.pp-h{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px;margin-bottom:14px}
+.fl{display:block;margin-bottom:12px}
+.fl-l{display:block;font-size:12.5px;font-weight:700;color:var(--mt);margin-bottom:5px}
+.in{width:100%;background:var(--p2);border:1px solid var(--line);border-radius:10px;padding:9px 11px;outline:none;transition:.15s}
+.in:focus{border-color:var(--ac);box-shadow:0 0 0 3px color-mix(in srgb,var(--ac) 22%,transparent)}
+textarea.in{resize:vertical;line-height:1.6}
+.chk{display:flex;align-items:center;gap:9px;margin-bottom:12px;font-weight:600;font-size:13.5px;cursor:pointer}
+.chk input{width:17px;height:17px;accent-color:var(--ac)}
+.rng{display:flex;align-items:center;gap:10px}
+.rng input{flex:1;accent-color:var(--ac)}
+.rng b{min-width:30px;text-align:center;font-size:13px}
+.clr{display:flex;gap:8px}
+.clr input[type=color]{width:46px;height:40px;padding:2px;border:1px solid var(--line);border-radius:10px;background:var(--p2);cursor:pointer;flex:none}
+.grp{border:1px solid var(--line);border-radius:12px;padding:12px 12px 2px;margin-bottom:12px;background:color-mix(in srgb,var(--p2) 60%,transparent)}
+.grp-t{font-size:12.5px;font-weight:800;margin-bottom:8px}
+.imgf{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.imgf .thumb{width:64px;height:48px;border-radius:9px;background:var(--p3) center/cover no-repeat;border:1px solid var(--line);flex:none}
+.imgf-b{display:flex;gap:6px;flex-wrap:wrap}
+.lst{margin-bottom:14px}
+.lst-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:13px;font-weight:800}
+.li{border:1px solid var(--line);border-radius:12px;margin-bottom:8px;background:var(--p2);overflow:hidden}
+.li summary{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:8px 10px;cursor:pointer;list-style:none;font-weight:700;font-size:13px}
+.li summary::-webkit-details-marker{display:none}
+.li-t{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li-b{display:flex}
+.li-b .ib{width:26px;height:26px;border-radius:7px}
+.li-body{padding:10px 10px 0;border-top:1px solid var(--line);background:var(--p1)}
+.sec-t{font-size:12.5px;font-weight:800;color:var(--ac);margin:18px 0 10px;display:flex;align-items:center;gap:8px}
+.sec-t::after{content:"";flex:1;height:1px;background:var(--line)}
+.pal{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.pal button{height:38px;border-radius:10px;border:2px solid transparent;transition:.15s}
+.pal button:hover{transform:scale(1.06);border-color:var(--tx)}
+.seg{display:flex;gap:6px;margin-bottom:12px}
+.seg button{flex:1;padding:9px;border-radius:10px;border:1px solid var(--line);font-weight:700;font-size:13px}
+.seg button:hover{border-color:var(--ac)}
+.hint{color:var(--mt);font-size:12.5px;line-height:1.7}
+.empty-pp{text-align:center;color:var(--mt);padding:40px 12px}
+.empty-pp .big{font-size:38px;margin-bottom:10px}
+/* modal / toast */
+.mbk{position:fixed;inset:0;background:rgba(5,7,12,.65);backdrop-filter:blur(5px);display:grid;place-items:center;z-index:200;padding:16px;animation:fi .15s}
+.md{background:var(--p1);border:1px solid var(--line);border-radius:20px;width:min(520px,100%);max-height:92vh;overflow:auto;box-shadow:var(--sh)}
+.md.wide{width:min(860px,100%)}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--p1);z-index:2}
+.mh h3{font-size:17px}
+.mb{padding:20px}
+.mf{display:flex;gap:8px;justify-content:flex-end;padding:0 20px 20px;flex-wrap:wrap}
+.tpls{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:6px 0 16px}
+.tpl{border:2px solid var(--line);border-radius:14px;padding:14px 10px;text-align:center;transition:.15s;background:var(--p2)}
+.tpl:hover{border-color:var(--mt)}
+.tpl.on{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--p2))}
+.tpl .e{font-size:28px;display:block;margin-bottom:6px}
+.tpl b{display:block;font-size:13.5px}
+.tpl small{display:block;color:var(--mt);font-size:12px;line-height:1.4;margin-top:3px}
+.igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px}
+.igrid button{height:46px;border-radius:10px;background:var(--p2);border:1px solid var(--line);font-size:23px;transition:.12s}
+.igrid button:hover{border-color:var(--ac);transform:scale(1.12);background:color-mix(in srgb,var(--ac) 14%,var(--p2))}
+.icat{font-size:12px;font-weight:700;color:var(--mt);margin:14px 2px 8px}
+.icat:first-child{margin-top:0}
+.icf{display:flex;gap:6px}
+.icf .in{flex:1;min-width:0}
+.dlg{display:grid;gap:12px}
+.dlo{display:flex;align-items:center;gap:14px;padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--p2);width:100%;text-align:start;transition:.15s}
+.dlo:hover{border-color:var(--ac);transform:translateY(-2px)}
+.dlo.main{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,var(--p2))}
+.dlo .di{width:46px;height:46px;border-radius:13px;background:var(--ac);color:#fff;display:grid;place-items:center;flex:none}
+.dlo b{display:block;font-size:15px}.dlo small{color:var(--mt)}
+.log{background:var(--p2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;min-height:44px;max-height:150px;overflow:auto;margin:10px 0;color:var(--mt);display:none}
+.log div::before{content:"› ";color:var(--ac)}
+.log .er{color:var(--dn)}.log .ok2{color:var(--ok)}
+.code-box{width:100%;height:46vh;font-family:ui-monospace,Consolas,monospace;font-size:12.5px;direction:ltr;text-align:left;white-space:pre}
+#toasts{position:fixed;bottom:18px;inset-inline:0;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:300;pointer-events:none}
+.toast{background:var(--p1);border:1px solid var(--line);padding:10px 16px;border-radius:12px;box-shadow:var(--sh);font-weight:600;display:flex;align-items:center;gap:12px;pointer-events:auto;animation:up .25s;font-size:14px}
+.toast.err{border-color:var(--dn)}.toast.ok{border-color:var(--ok)}.toast.warn{border-color:#f59e0b}
+.toast button{color:var(--ac);font-weight:800}
+@keyframes fi{from{opacity:0}}@keyframes up{from{opacity:0;transform:translateY(12px)}}
+@media(max-width:1000px){
+ .ed{grid-template-columns:minmax(0,1fr)}
+ #lp,#pp{position:fixed;top:56px;bottom:0;width:min(350px,92vw);z-index:40;transition:transform .25s;box-shadow:var(--sh)}
+ #lp{right:0;transform:translateX(110%)}#pp{left:0;transform:translateX(-110%)}
+ .ed.show-lp #lp,.ed.show-pp #pp{transform:none}
+ .mob{display:inline-grid}.tb-d,.pname{display:none}.hide-m{display:none}
+ #stage{padding:8px}
+}
+@media(max-width:560px){.pname{display:none}.sv{display:none}.dh-r .btn-s{display:none}.logo small{display:none}}
+</style>
 </head>
 <body>
+<div id="app"></div>
+<div id="toasts"></div>
+<div id="modal-root"></div>
+<input type="file" id="fileIn" accept="image/*" hidden>
 
-    <!-- شريط الرابط -->
-    <div class="url-bar">
-        <input type="text" id="targetUrl" placeholder="حط الرابط أو اتركها واضغط عرض لتجربة التاغات...">
-        <button onclick="loadData()">عرض</button>
+<script>
+(() => {
+'use strict';
+
+/* =====================================================================
+   أدوات عامة
+   ===================================================================== */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const uid = () => Math.random().toString(36).slice(2, 9);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const clone = o => JSON.parse(JSON.stringify(o));
+const get = (o, p) => String(p).split('.').reduce((a, k) => (a == null ? a : a[k]), o);
+const setP = (o, p, v) => { const k = String(p).split('.'); const last = k.pop(); const t = k.reduce((a, x) => a[x], o); t[last] = v; };
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const clip = (s, n = 30) => { s = String(s || ''); return s.length > n ? s.slice(0, n) + '…' : s; };
+const slug = s => String(s || '').toLowerCase().replace(/[^a-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '');
+const safeUrl = u => {
+  u = String(u || '').trim();
+  if (!u) return '#';
+  if (/^(https?:|mailto:|tel:|#|\/|\.\/|\.\.\/)/i.test(u)) return u;
+  if (/^[a-z][a-z0-9+.-]*:/i.test(u)) return '#';
+  return u;
+};
+const ago = ts => {
+  const m = Math.floor((Date.now() - ts) / 60000);
+  if (m < 1) return 'الآن';
+  if (m < 60) return 'قبل ' + m + ' دقيقة';
+  const h = Math.floor(m / 60);
+  if (h < 24) return 'قبل ' + h + ' ساعة';
+  return 'قبل ' + Math.floor(h / 24) + ' يوم';
+};
+const b64 = s => {
+  const b = new TextEncoder().encode(s); let bin = '';
+  for (let i = 0; i < b.length; i += 0x8000) bin += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+  return btoa(bin);
+};
+
+/* ألوان */
+const hex2rgb = h => { h = h.replace('#', ''); if (h.length === 3) h = h.split('').map(c => c + c).join(''); const n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+const lum = h => { const [r, g, b] = hex2rgb(h).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * r + .7152 * g + .0722 * b; };
+const onColor = h => (lum(h) > .5 ? '#0b1020' : '#ffffff');
+const mix = (a, b, t) => { const A = hex2rgb(a), B = hex2rgb(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
+
+/* أيقونات */
+const ICONS = {
+  monitor: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>',
+  tablet: '<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M12 18h.01"/>',
+  phone: '<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/>',
+  undo: '<path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/>',
+  redo: '<path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13"/>',
+  eye: '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
+  eyeoff: '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/>',
+  code: '<path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>',
+  download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',
+  upload: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  trash: '<path d="M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>',
+  copy: '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  up: '<path d="M12 19V5M5 12l7-7 7 7"/>',
+  down: '<path d="M12 5v14M19 12l-7 7-7-7"/>',
+  grip: '<circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="18" r="1"/>',
+  back: '<path d="M5 12h14M12 5l7 7-7 7"/>',
+  layers: '<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>',
+  sliders: '<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',
+  x: '<path d="M18 6L6 18M6 6l12 12"/>',
+  check: '<path d="M20 6L9 17l-5-5"/>',
+  github: '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>',
+  moon: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',
+  sun: '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>',
+  ext: '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>',
+  json: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/>',
+  zip: '<path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/>',
+  rocket: '<path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>'
+};
+const ic = (n, s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[n] || ''}</svg>`;
+
+/* صور بديلة جاهزة (SVG مضمّن — بدون إنترنت) */
+const PAL = [['#7c5cff', '#22d3ee'], ['#f43f5e', '#f59e0b'], ['#0ea5e9', '#22c55e'], ['#8b5cf6', '#ec4899'], ['#14b8a6', '#6366f1'], ['#f97316', '#eab308']];
+const ph = (i = 0, w = 800, h = 600) => {
+  const [a, b] = PAL[i % PAL.length];
+  const s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="${w}" height="${h}" fill="url(#g)"/><circle cx="${w * .78}" cy="${h * .27}" r="${h * .15}" fill="#fff" opacity=".2"/><path d="M0 ${h * .8}Q${w * .25} ${h * .62} ${w * .5} ${h * .78}T${w} ${h * .72}V${h}H0Z" fill="#fff" opacity=".22"/></svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
+};
+
+/* =====================================================================
+   التخزين (IndexedDB)
+   ===================================================================== */
+const DB = {
+  db: null,
+  open() {
+    return new Promise((res, rej) => {
+      if (!window.indexedDB) return rej(new Error('no idb'));
+      const r = indexedDB.open('bannay', 1);
+      r.onupgradeneeded = () => r.result.createObjectStore('projects', { keyPath: 'id' });
+      r.onsuccess = () => { this.db = r.result; res(); };
+      r.onerror = () => rej(r.error);
+    });
+  },
+  st(mode) { return this.db.transaction('projects', mode).objectStore('projects'); },
+  all() { return new Promise((res, rej) => { if (!this.db) return res([]); const q = this.st('readonly').getAll(); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); }); },
+  put(p) { return new Promise((res, rej) => { if (!this.db) return res(); const q = this.st('readwrite').put(p); q.onsuccess = () => res(); q.onerror = () => rej(q.error); }); },
+  del(id) { return new Promise((res, rej) => { if (!this.db) return res(); const q = this.st('readwrite').delete(id); q.onsuccess = () => res(); q.onerror = () => rej(q.error); }); }
+};
+
+/* =====================================================================
+   ثوابت التصميم
+   ===================================================================== */
+const FONTS = { 'Tajawal': '400;500;700;800', 'Cairo': '400;500;700;800', 'Almarai': '400;700;800', 'Noto Kufi Arabic': '400;500;700;800', 'IBM Plex Sans Arabic': '400;500;700', 'El Messiri': '400;500;700', 'Amiri': '400;700', 'Changa': '400;500;700;800', 'Inter': '400;500;700;800', 'Poppins': '400;500;700;800' };
+const PALETTES = [['#7c5cff', '#22d3ee'], ['#2563eb', '#06b6d4'], ['#16a34a', '#84cc16'], ['#e11d48', '#f59e0b'], ['#ea580c', '#facc15'], ['#0d9488', '#6366f1'], ['#db2777', '#8b5cf6'], ['#0f172a', '#64748b']];
+const DEF_THEME = { title: '', desc: 'موقع مصمم باستخدام بنّاي', favicon: '🧱', lang: 'ar', dir: 'rtl', font: 'Tajawal', primary: '#7c5cff', accent: '#22d3ee', bg: '#ffffff', text: '#0f172a', radius: 16, anim: true, customCSS: '', headCode: '' };
+const DEF_STYLE = { bg: 'default', bgColor: '#f1f5f9', pad: 'md', align: 'auto' };
+
+const fontHref = th => `https://fonts.googleapis.com/css2?family=${String(th.font).replace(/ /g, '+')}:wght@${FONTS[th.font] || '400;700'}&display=swap`;
+
+const BASE_CSS = `
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.8;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+h1,h2,h3{line-height:1.3;font-weight:800}
+h1{font-size:clamp(2.2rem,5.2vw,3.8rem)}
+h2{font-size:clamp(1.7rem,3.6vw,2.6rem)}
+h3{font-size:1.2rem;font-weight:700}
+.wrap{width:100%;max-width:1160px;margin-inline:auto;padding-inline:24px}
+.narrow{max-width:780px}
+.sec{background:var(--s-bg);color:var(--s-fg);padding-block:var(--s-py);position:relative}
+.muted{opacity:.74}
+.lead{font-size:1.15rem;max-width:660px;margin-top:14px}
+.ml{white-space:pre-line}
+.head{max-width:720px;margin:0 0 52px}
+.head>*+*{margin-top:12px}
+.head .lead{margin-top:12px}
+[style*="text-align:center"] .head,[style*="text-align:center"] .lead{margin-inline:auto}
+[style*="text-align:center"] h1{margin-inline:auto;max-width:900px}
+[style*="text-align:center"] .actions{justify-content:center}
+.eyebrow{display:inline-block;font-size:.85rem;font-weight:700;padding:3px 14px;border-radius:99px;background:color-mix(in srgb,var(--primary) 16%,transparent);color:var(--primary);line-height:1.8}
+.sec[data-bg=primary] .eyebrow,.sec[data-bg=dark] .eyebrow{background:rgba(255,255,255,.16);color:inherit}
+.grid{display:grid;gap:24px}
+.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:color-mix(in srgb,currentColor 5%,transparent);border:1px solid color-mix(in srgb,currentColor 12%,transparent);border-radius:var(--radius);padding:28px;transition:.25s;text-align:start}
+.card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--primary) 55%,transparent)}
+.grid.plain .card{background:none;border:0;padding:0}
+.grid.plain .card:hover{transform:none}
+.ico{font-size:1.9rem}
+.feat .ico{width:60px;height:60px;display:grid;place-items:center;border-radius:calc(var(--radius)*.8);background:color-mix(in srgb,var(--primary) 15%,transparent);margin-bottom:16px}
+.feat p{margin-top:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 28px;border-radius:calc(var(--radius)*.8);background:var(--primary);color:var(--on-primary);font-weight:700;border:2px solid var(--primary);cursor:pointer;transition:.2s;font-family:inherit;font-size:1rem;line-height:1.4}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px -10px var(--primary)}
+.btn.ghost{background:transparent;color:inherit;border-color:color-mix(in srgb,currentColor 45%,transparent)}
+.btn.ghost:hover{border-color:currentColor;box-shadow:none}
+.btn.sm{padding:9px 20px;font-size:.92rem}
+.sec[data-bg=primary] .btn:not(.ghost){background:#fff;color:#111827;border-color:#fff}
+.actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
+.sec-navbar{padding:0;z-index:60;border-bottom:1px solid color-mix(in srgb,currentColor 10%,transparent)}
+.sec-navbar.is-sticky{position:sticky;top:0}
+.nav-in{display:flex;align-items:center;gap:20px;min-height:68px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.2rem;margin-inline-end:auto}
+.logo-mark{min-width:38px;height:38px;padding-inline:6px;border-radius:calc(var(--radius)*.7);display:grid;place-items:center;background:var(--primary);color:var(--on-primary);font-size:1.1rem}
+.logo-img{height:38px;width:auto}
+.nav-links{display:flex;align-items:center;gap:26px}
+.nav-links a:not(.btn){font-weight:500;opacity:.85;transition:.2s}
+.nav-links a:not(.btn):hover{opacity:1;color:var(--primary)}
+.nav-toggle{display:none;background:none;border:0;cursor:pointer;flex-direction:column;gap:5px;padding:8px;color:inherit}
+.nav-toggle i{display:block;width:24px;height:2px;background:currentColor;border-radius:2px}
+.sec-hero{overflow:hidden}
+.sec-hero:not(.is-cover)::before{content:"";position:absolute;inset:0 0 auto 0;height:85%;background:radial-gradient(60% 70% at 50% 0,color-mix(in srgb,var(--primary) 26%,transparent),transparent);pointer-events:none}
+.sec-hero .wrap{position:relative}
+.split{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.rounded{border-radius:calc(var(--radius)*1.6);box-shadow:0 30px 60px -25px rgba(0,0,0,.45);width:100%;aspect-ratio:4/3;object-fit:cover}
+.is-cover{color:#fff;min-height:min(82vh,720px);display:flex;align-items:center}
+.cover-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.cover-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,.72))}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.about.rev .about-img{order:2}
+.about-img img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:calc(var(--radius)*1.6)}
+.about-txt>*+*{margin-top:14px}
+.about-txt .actions{margin-top:24px}
+.checks{display:grid;gap:10px}
+.checks li{display:flex;gap:10px;align-items:flex-start}
+.checks li::before{content:"✓";flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;font-weight:800;background:var(--primary);color:var(--on-primary);margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:28px}
+.stat b{display:block;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;color:var(--primary);line-height:1.25}
+.sec[data-bg=primary] .stat b,.sec[data-bg=dark] .stat b{color:inherit}
+.gal figure{overflow:hidden;border-radius:var(--radius)}
+.gal-img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .4s}
+.gal figure:hover .gal-img{transform:scale(1.06)}
+.gal figcaption{padding:10px 4px;font-size:.95rem;opacity:.8}
+.price-card{display:flex;flex-direction:column;gap:14px}
+.price-card.featured{border:2px solid var(--primary);background:color-mix(in srgb,var(--primary) 9%,transparent);transform:scale(1.03)}
+.price{font-size:2.6rem;font-weight:800;line-height:1.1}
+.price small{font-size:1rem;font-weight:500;opacity:.7;margin-inline-start:4px}
+.price-card .checks{flex:1;margin-block:8px}
+.badge{align-self:flex-start;font-size:.78rem;font-weight:700;padding:2px 12px;border-radius:99px;background:var(--primary);color:var(--on-primary)}
+.quote{display:flex;flex-direction:column;gap:18px}
+.who{display:flex;align-items:center;gap:12px}
+.av{width:46px;height:46px;border-radius:50%;object-fit:cover;background:var(--primary);color:var(--on-primary);display:grid;place-items:center;font-weight:800;flex:none}
+.who b{display:block;line-height:1.3}
+.who small{opacity:.7}
+.team .card{text-align:center}
+.team img{width:110px;height:110px;border-radius:50%;object-fit:cover;margin:0 auto 14px}
+.faq{max-width:820px;margin-inline:auto;display:grid;gap:12px}
+.faq details{border:1px solid color-mix(in srgb,currentColor 14%,transparent);border-radius:var(--radius);padding:18px 22px;background:color-mix(in srgb,currentColor 4%,transparent);text-align:start}
+.faq summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:1.5rem;line-height:1;color:var(--primary);transition:.2s;flex:none}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin-top:12px;opacity:.8}
+.cta-box{max-width:760px;margin-inline:auto}
+.cta-box>*+*{margin-top:16px}
+.contact{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:start}
+.contact.one{grid-template-columns:minmax(0,640px);justify-content:center}
+.info{display:grid;gap:14px}
+.info .card{display:flex;gap:14px;align-items:center;padding:18px 22px}
+.info .card:hover{transform:none}
+.cf{display:grid;gap:14px}
+.cf:hover{transform:none!important}
+.cf input,.cf textarea{width:100%;font:inherit;padding:14px 16px;border-radius:calc(var(--radius)*.7);border:1px solid color-mix(in srgb,currentColor 22%,transparent);background:color-mix(in srgb,currentColor 5%,transparent);color:inherit;outline:none;transition:.2s}
+.cf input:focus,.cf textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 25%,transparent)}
+.cf textarea{min-height:130px;resize:vertical}
+.video{position:relative;aspect-ratio:16/9;border-radius:calc(var(--radius)*1.4);overflow:hidden;background:#000;max-width:900px;margin-inline:auto}
+.video iframe,.video video{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vph{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-weight:700;padding:20px;text-align:center}
+.sec-text h2{margin-bottom:16px}
+.sec-text p{font-size:1.08rem}
+.foot{display:flex;flex-wrap:wrap;gap:20px 28px;justify-content:space-between;align-items:center}
+.foot-links,.foot-soc{display:flex;flex-wrap:wrap;gap:8px 22px}
+.foot-links a:hover{color:var(--primary)}
+.soc{padding:5px 14px;border:1px solid color-mix(in srgb,currentColor 22%,transparent);border-radius:99px;font-size:.9rem;transition:.2s}
+.soc:hover{border-color:var(--primary);color:var(--primary)}
+.copy{opacity:.65;font-size:.92rem;width:100%;text-align:center;padding-top:20px;border-top:1px solid color-mix(in srgb,currentColor 14%,transparent)}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+@media(max-width:900px){.cols-3,.cols-4{grid-template-columns:repeat(2,minmax(0,1fr))}.split,.about,.contact{grid-template-columns:1fr;gap:36px}.about.rev .about-img{order:0}.price-card.featured{transform:none}}
+@media(max-width:820px){.nav-toggle{display:flex}.nav-links{display:none;position:absolute;top:100%;inset-inline:0;flex-direction:column;align-items:stretch;gap:0;background:var(--s-bg);padding:12px 24px 20px;border-bottom:1px solid var(--border)}.nav-links a:not(.btn){padding:12px 0}.sec-navbar.open .nav-links{display:flex}.nav-links .btn{margin-top:10px}}
+@media(max-width:600px){.grid{grid-template-columns:1fr!important}body{font-size:16px}.wrap{padding-inline:18px}.head{margin-bottom:36px}.card{padding:22px}}
+`;
+
+const EDIT_CSS = `
+.is-edit .sec{scroll-margin-top:72px}
+.is-edit .sec:hover{outline:2px dashed rgba(124,92,255,.5);outline-offset:-2px}
+.is-edit .sec.is-sel{outline:2px solid #7c5cff;outline-offset:-2px}
+.is-edit [data-f]{outline:none;cursor:text;border-radius:4px;transition:box-shadow .15s,background .15s}
+.is-edit [data-f]:hover{box-shadow:0 0 0 3px rgba(124,92,255,.28)}
+.is-edit [data-f]:focus{box-shadow:0 0 0 3px #7c5cff;background:rgba(124,92,255,.08)}
+.is-edit [data-f]:empty::before{content:'اكتب هنا…';opacity:.45}
+.is-edit [data-img]{cursor:pointer;transition:filter .2s}
+.is-edit [data-img]:hover{filter:brightness(.8)}
+.is-edit .card:hover,.is-edit .btn:hover{transform:none}
+.is-edit iframe,.is-edit video{pointer-events:none}
+.is-edit .rv{opacity:1;transform:none}
+.sec-spacer{min-height:12px}
+.empty-pg{min-height:70vh;display:grid;place-items:center;text-align:center;color:#64748b;padding:40px;font-size:1.1rem}
+#bn-tb{position:absolute;inset-inline-start:12px;z-index:2147483000;display:none;gap:2px;padding:4px;background:#111827;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.35);font-family:system-ui}
+#bn-tb button{all:unset;cursor:pointer;color:#fff;width:30px;height:30px;display:grid;place-items:center;border-radius:7px;font-size:15px}
+#bn-tb button:hover{background:#7c5cff}
+`;
+
+const siteCSS = th => {
+  const on = onColor(th.primary), surface = mix(th.bg, th.text, .05), border = mix(th.bg, th.text, .14);
+  return `:root{--primary:${th.primary};--on-primary:${on};--accent:${th.accent};--bg:${th.bg};--text:${th.text};--surface:${surface};--border:${border};--radius:${th.radius}px;--font:'${th.font}',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif}` + BASE_CSS;
+};
+const fullCSS = th => siteCSS(th) + (th.customCSS || '');
+
+/* =====================================================================
+   محرك الرسم: ctx + كتل المحتوى
+   ===================================================================== */
+function mkCtx(edit, lang) {
+  const ed = (path, ml) => (edit ? ` data-f="${esc(path)}"${ml ? ' data-ml' : ''}` : '');
+  return {
+    edit,
+    L: (a, e) => (lang === 'en' ? e : a),
+    t: (tag, path, val, cls = '', ml = false) => {
+      if (!val && !edit) return '';
+      return `<${tag} class="${cls}${ml ? ' ml' : ''}"${ed(path, ml)}>${esc(val)}</${tag}>`;
+    },
+    img: (path, src, alt = '', cls = '') => `<img class="${cls}" src="${esc(src)}" alt="${esc(alt)}" loading="lazy"${edit ? ` data-img="${esc(path)}"` : ''}>`,
+    btn: (path, o, cls = '') => {
+      o = o || {};
+      if (!o.text && !edit) return '';
+      return `<a class="btn ${cls}" href="${esc(safeUrl(o.url))}"><span${ed(path + '.text')}>${esc(o.text)}</span></a>`;
+    }
+  };
+}
+
+const head = (c, d) => ((d.eyebrow || d.title || d.subtitle || c.edit)
+  ? `<div class="head">${c.t('span', 'eyebrow', d.eyebrow, 'eyebrow')}${c.t('h2', 'title', d.title)}${c.t('p', 'subtitle', d.subtitle, 'lead muted', true)}</div>` : '');
+
+function videoEmbed(u) {
+  u = String(u || '').trim(); let m;
+  if ((m = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/))) return `<iframe src="https://www.youtube.com/embed/${m[1]}" allowfullscreen loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture"></iframe>`;
+  if ((m = u.match(/vimeo\.com\/(\d+)/))) return `<iframe src="https://player.vimeo.com/video/${m[1]}" allowfullscreen loading="lazy"></iframe>`;
+  if (/\.(mp4|webm|ogg)(\?|$)/i.test(u)) return `<video controls src="${esc(u)}"></video>`;
+  return '<div class="vph">▶ ألصق رابط يوتيوب أو فيميو من لوحة الإعدادات</div>';
+}
+
+/* مكتبة الأيقونات */
+const ICON_LIB = {
+  'عام': '⭐ ✨ 🔥 ⚡ 💡 🎯 🚀 💎 🏆 🎁 🎉 🎈 ❤️ 💚 💙 💜 🧡 🖤 ✅ ❌ ➕ ➖ ❓ ❗ 🔔 🔒 🔓 🔑 🛡️ ⚙️ 🔧 🛠️ 🧩 📌 📍 🏷️ 🔖 ♻️ 🌟 💫 🎨 🧱',
+  'أعمال': '💼 📈 📉 📊 💰 💳 💵 🏦 🧾 📦 🛒 🛍️ 🏢 🏭 🤝 📣 📢 📝 📋 📅 🗓️ ⏰ ⌛ 🧮 📁 📂 🗂️ 🖇️ ✉️ 📧 📨 📞 ☎️ 📱 💬 🗨️',
+  'تقنية': '💻 🖥️ ⌨️ 🖱️ 📡 🌐 🔗 ☁️ 💾 🗄️ 🔌 🔋 🤖 🧠 👾 🎮 🕹️ 📷 📹 🎥 🎧 🎤 🔊 📺 🖨️ 🔍 🔎 🧪 🔬 🛰️ 📲 🪄',
+  'ناس': '👤 👥 👨‍💼 👩‍💼 👨‍💻 👩‍💻 👨‍🎓 👩‍🎓 👨‍⚕️ 👩‍⚕️ 👨‍🍳 👩‍🍳 👨‍🏫 👩‍🏫 🧑‍🔧 👷 🦸 🙋 👋 👍 👏 🙌 🤲 💪 🧑‍🤝‍🧑 👨‍👩‍👧 🎓 👑 😀 😍 🤩 😎',
+  'طعام': '🍽️ 🍕 🍔 🍟 🌮 🌯 🥙 🍖 🍗 🥩 🍚 🍜 🍝 🥗 🍣 🥘 🍰 🎂 🍩 🍪 🍫 🍦 ☕ 🍵 🥤 🧃 🍎 🍌 🍇 🍉 🥐 🍞 🥖 🍯',
+  'سفر ومكان': '🏠 🏡 🏙️ 🌆 🕌 ⛪ 🏰 🏖️ 🏝️ ⛰️ 🌄 🌍 🗺️ 🧭 ✈️ 🚗 🚕 🚌 🚆 🚢 🚲 🏍️ ⛽ 🏨 🎡 🎪 🏟️ ⛺ 🌴 🌳 🌸 🌻',
+  'صحة ورياضة': '🏥 💊 🩺 💉 🧬 🦷 ❤️‍🩹 🧘 🏃 🏋️ ⚽ 🏀 🏈 🎾 🏊 🚴 🥇 🥈 🥉 🏅 🥋 🎯 🧗 🍏 🥦 💧',
+  'تعليم وإبداع': '📚 📖 📕 📗 📘 ✏️ ✒️ 🖊️ 🖌️ 🎨 🖼️ 🎭 🎬 🎵 🎶 🎸 🎹 🥁 🎻 📐 📏 🔭 🧮 🏫 🎓 🗣️ 🌐 ✍️',
+  'طبيعة وطقس': '☀️ 🌙 ⭐ 🌈 ☁️ ⛅ 🌧️ ⛈️ ❄️ ☃️ 🌊 🔥 🌪️ 🌱 🌿 🍀 🌹 🌺 🌼 🐶 🐱 🐎 🐪 🦅 🦋 🐝 🐟 🐬',
+  'أسهم ورموز': '➡️ ⬅️ ⬆️ ⬇️ ↗️ ↩️ 🔄 ▶️ ⏸️ ⏹️ ➰ ✔️ ✖️ ☑️ 🔰 ⚠️ ℹ️ 🆕 🆓 🔝 💯 ©️ ®️ ™️ ♾️ 🔴 🟠 🟡 🟢 🔵 🟣'
+};
+function iconGrid(q) {
+  q = (q || '').trim();
+  const cats = Object.entries(ICON_LIB).map(([c, s]) => [c, s.split(' ').filter(Boolean)]);
+  if (q) { const all = [].concat(...cats.map(x => x[1])).filter(e => e.includes(q)); return all.length ? `<div class="igrid">${all.map(e => `<button data-a="ico" data-e="${e}">${e}</button>`).join('')}</div>` : '<div class="empty-pp">الصق أو اكتب إيموجي في الحقل أعلاه</div>'; }
+  return cats.map(([c, l]) => `<div class="icat">${c}</div><div class="igrid">${l.map(e => `<button data-a="ico" data-e="${e}">${e}</button>`).join('')}</div>`).join('');
+}
+
+/* مختصرات الحقول */
+const icn = (k, l) => ({ k, l, t: 'icon' });
+const tx = (k, l, o) => ({ k, l, t: 'text', ...o });
+const ta = (k, l, o) => ({ k, l, t: 'textarea', ...o });
+const ur = (k, l) => ({ k, l, t: 'url' });
+const im = (k, l) => ({ k, l, t: 'image' });
+const sl = (k, l, o) => ({ k, l, t: 'select', o });
+const ck = (k, l) => ({ k, l, t: 'check' });
+const nm = (k, l, min, max, step) => ({ k, l, t: 'number', min, max, step });
+const gp = (k, l, f) => ({ k, l, t: 'group', f });
+const ls = (k, l, item, label, add) => ({ k, l, t: 'list', item, label, add });
+const BTN = [tx('text', 'نص الزر'), ur('url', 'الرابط')];
+const HEADF = [tx('eyebrow', 'عنوان صغير (اختياري)'), tx('title', 'العنوان'), ta('subtitle', 'الوصف', { rows: 2 })];
+
+const BLOCKS = {
+  navbar: {
+    name: 'شريط التنقل', icon: '☰', cat: 'الهيكل', tag: 'header', unique: true, align: 'start', style: { pad: 'none' },
+    cls: d => (d.sticky ? 'is-sticky' : ''),
+    def: () => ({ brand: 'اسم موقعي', logo: '✦', logoImg: '', sticky: true, links: [{ text: 'الرئيسية', url: '#top' }, { text: 'المميزات', url: '#features' }, { text: 'تواصل', url: '#contact' }], cta: { text: 'ابدأ الآن', url: '#contact' } }),
+    fields: [tx('brand', 'اسم الموقع'), icn('logo', 'رمز الشعار (حرف أو أيقونة)'), im('logoImg', 'صورة الشعار (اختياري)'), ck('sticky', 'تثبيت الشريط أعلى الصفحة'),
+      ls('links', 'الروابط', [tx('text', 'النص'), ur('url', 'الرابط (مثال: #about)')], 'text', { text: 'رابط جديد', url: '#' }), gp('cta', 'زر الدعوة', BTN)],
+    render: (d, c) => `<div class="wrap nav-in"><a class="brand" href="#top">${d.logoImg ? c.img('logoImg', d.logoImg, d.brand, 'logo-img') : c.t('span', 'logo', d.logo, 'logo-mark')}${c.t('span', 'brand', d.brand, 'brand-name')}</a><button class="nav-toggle" aria-label="القائمة" onclick="this.closest('header').classList.toggle('open')"><i></i><i></i><i></i></button><nav class="nav-links">${d.links.map((l, i) => `<a href="${esc(safeUrl(l.url))}">${c.t('span', `links.${i}.text`, l.text)}</a>`).join('')}${c.btn('cta', d.cta, 'sm')}</nav></div>`
+  },
+  hero: {
+    name: 'القسم الرئيسي', icon: '🚀', cat: 'أساسية', align: d => (d.layout === 'split' ? 'start' : 'center'),
+    cls: d => (d.layout === 'cover' ? 'is-cover' : ''),
+    def: () => ({ layout: 'center', eyebrow: 'جديد ✨', title: 'اصنع شيئاً رائعاً اليوم', subtitle: 'وصف قصير وجذاب يشرح فكرتك ويقنع الزائر بالبقاء والتعرّف أكثر.', btn1: { text: 'ابدأ الآن', url: '#contact' }, btn2: { text: 'اعرف أكثر', url: '#features' }, image: ph(0) }),
+    fields: [sl('layout', 'التخطيط', [['center', 'نص في المنتصف'], ['split', 'نص وصورة جانبية'], ['cover', 'صورة خلفية كاملة']]), tx('eyebrow', 'عنوان صغير'), tx('title', 'العنوان الرئيسي'), ta('subtitle', 'الوصف', { rows: 3 }), gp('btn1', 'الزر الأول', BTN), gp('btn2', 'الزر الثاني', BTN), im('image', 'الصورة (للتخطيط الجانبي أو الخلفية)')],
+    render: (d, c) => {
+      const txt = `${c.t('span', 'eyebrow', d.eyebrow, 'eyebrow')}${c.t('h1', 'title', d.title)}${c.t('p', 'subtitle', d.subtitle, 'lead', true)}<div class="actions">${c.btn('btn1', d.btn1)}${c.btn('btn2', d.btn2, 'ghost')}</div>`;
+      if (d.layout === 'split') return `<div class="wrap split"><div>${txt}</div><div>${c.img('image', d.image, d.title, 'rounded')}</div></div>`;
+      if (d.layout === 'cover') return `<div class="cover-bg" style='background-image:url("${esc(d.image)}")'></div><div class="cover-ov"></div><div class="wrap">${txt}</div>`;
+      return `<div class="wrap">${txt}</div>`;
+    }
+  },
+  about: {
+    name: 'من نحن', icon: '👤', cat: 'أساسية', align: 'start',
+    def: () => ({ eyebrow: 'من نحن', title: 'قصتنا باختصار', text: 'اكتب هنا نبذة عنك أو عن مشروعك: كيف بدأت، وما الذي يميّزك، ولماذا يثق بك عملاؤك.', bullets: [{ text: 'خبرة تزيد عن 5 سنوات' }, { text: 'فريق شغوف ومحترف' }, { text: 'التزام بالمواعيد والجودة' }], btn: { text: 'تواصل معنا', url: '#contact' }, image: ph(2), imgPos: 'start' }),
+    fields: [tx('eyebrow', 'عنوان صغير'), tx('title', 'العنوان'), ta('text', 'النص', { rows: 5 }), ls('bullets', 'نقاط مميّزة', [tx('text', 'النص')], 'text', { text: 'نقطة جديدة' }), gp('btn', 'الزر', BTN), im('image', 'الصورة'), sl('imgPos', 'مكان الصورة', [['start', 'بداية السطر'], ['end', 'نهاية السطر']])],
+    render: (d, c) => `<div class="wrap about ${d.imgPos === 'end' ? 'rev' : ''}"><div class="about-img">${c.img('image', d.image, d.title)}</div><div class="about-txt">${c.t('span', 'eyebrow', d.eyebrow, 'eyebrow')}${c.t('h2', 'title', d.title)}${c.t('p', 'text', d.text, 'muted', true)}<ul class="checks">${d.bullets.map((b, i) => `<li>${c.t('span', `bullets.${i}.text`, b.text)}</li>`).join('')}</ul><div class="actions">${c.btn('btn', d.btn)}</div></div></div>`
+  },
+  features: {
+    name: 'المميزات', icon: '✨', cat: 'أساسية', align: 'center',
+    def: () => ({ eyebrow: 'لماذا نحن', title: 'مميزات تجعلنا مختلفين', subtitle: 'كل ما تحتاجه في مكان واحد.', cols: '3', style: 'cards', items: [{ icon: '⚡', title: 'سريع جداً', text: 'أداء عالٍ وتحميل فوري لكل الصفحات.' }, { icon: '🎨', title: 'تصميم أنيق', text: 'واجهات عصرية تناسب جميع الأذواق.' }, { icon: '🔒', title: 'آمن وموثوق', text: 'نحمي بياناتك بأعلى معايير الأمان.' }] }),
+    fields: [...HEADF, sl('cols', 'عدد الأعمدة', [['2', '2'], ['3', '3'], ['4', '4']]), sl('style', 'الشكل', [['cards', 'بطاقات'], ['plain', 'بسيط']]), ls('items', 'العناصر', [icn('icon', 'الأيقونة'), tx('title', 'العنوان'), ta('text', 'الوصف', { rows: 2 })], 'title', { icon: '⭐', title: 'ميزة جديدة', text: 'وصف الميزة.' })],
+    render: (d, c) => `<div class="wrap">${head(c, d)}<div class="grid cols-${d.cols} ${d.style}">${d.items.map((it, i) => `<div class="card feat">${c.t('div', `items.${i}.icon`, it.icon, 'ico')}${c.t('h3', `items.${i}.title`, it.title)}${c.t('p', `items.${i}.text`, it.text, 'muted', true)}</div>`).join('')}</div></div>`
+  },
+  text: {
+    name: 'نص حر', icon: '📝', cat: 'أساسية', align: 'start',
+    def: () => ({ title: 'عنوان القسم', body: 'اكتب هنا أي نص تريده: مقال، شروط، تعريف، أو أي شيء آخر. يمكنك تعديله مباشرة بالضغط عليه.' }),
+    fields: [tx('title', 'العنوان'), ta('body', 'النص', { rows: 7 })],
+    render: (d, c) => `<div class="wrap narrow">${c.t('h2', 'title', d.title)}${c.t('p', 'body', d.body, 'muted', true)}</div>`
+  },
+  stats: {
+    name: 'أرقام وإحصائيات', icon: '📊', cat: 'عرض', align: 'center',
+    def: () => ({ items: [{ num: '+250', label: 'عميل سعيد' }, { num: '+40', label: 'مشروع منجز' }, { num: '99%', label: 'رضا العملاء' }, { num: '24/7', label: 'دعم متواصل' }] }),
+    fields: [ls('items', 'الأرقام', [tx('num', 'الرقم'), tx('label', 'الوصف')], 'num', { num: '0', label: 'وصف' })],
+    render: (d, c) => `<div class="wrap"><div class="stats">${d.items.map((it, i) => `<div class="stat">${c.t('b', `items.${i}.num`, it.num)}${c.t('span', `items.${i}.label`, it.label, 'muted')}</div>`).join('')}</div></div>`
+  },
+  gallery: {
+    name: 'معرض صور', icon: '🖼️', cat: 'عرض', align: 'center',
+    def: () => ({ eyebrow: 'أعمالنا', title: 'معرض الأعمال', subtitle: 'نماذج من مشاريعنا السابقة.', cols: '3', items: [0, 1, 2, 3, 4, 5].map(i => ({ image: ph(i), caption: 'مشروع ' + (i + 1) })) }),
+    fields: [...HEADF, sl('cols', 'عدد الأعمدة', [['2', '2'], ['3', '3'], ['4', '4']]), ls('items', 'الصور', [im('image', 'الصورة'), tx('caption', 'التعليق')], 'caption', { image: ph(1), caption: 'صورة جديدة' })],
+    render: (d, c) => `<div class="wrap">${head(c, d)}<div class="grid cols-${d.cols} gal">${d.items.map((it, i) => `<figure>${c.img(`items.${i}.image`, it.image, it.caption, 'gal-img')}${c.t('figcaption', `items.${i}.caption`, it.caption)}</figure>`).join('')}</div></div>`
+  },
+  video: {
+    name: 'فيديو', icon: '🎬', cat: 'عرض', align: 'center',
+    def: () => ({ eyebrow: '', title: 'شاهد الفيديو', subtitle: '', url: '' }),
+    fields: [...HEADF, ur('url', 'رابط يوتيوب أو فيميو أو ملف mp4')],
+    render: (d, c) => `<div class="wrap">${head(c, d)}<div class="video">${videoEmbed(d.url)}</div></div>`
+  },
+  team: {
+    name: 'فريق العمل', icon: '👥', cat: 'عرض', align: 'center',
+    def: () => ({ eyebrow: 'الفريق', title: 'تعرّف على فريقنا', subtitle: '', items: [{ name: 'أحمد علي', role: 'المدير التنفيذي', image: ph(0, 400, 400) }, { name: 'سارة محمد', role: 'مديرة التصميم', image: ph(1, 400, 400) }, { name: 'عمر حسن', role: 'مطوّر أول', image: ph(2, 400, 400) }] }),
+    fields: [...HEADF, ls('items', 'الأعضاء', [tx('name', 'الاسم'), tx('role', 'المنصب'), im('image', 'الصورة')], 'name', { name: 'عضو جديد', role: 'المنصب', image: ph(3, 400, 400) })],
+    render: (d, c) => `<div class="wrap">${head(c, d)}<div class="grid cols-3 team">${d.items.map((it, i) => `<div class="card">${c.img(`items.${i}.image`, it.image, it.name)}${c.t('h3', `items.${i}.name`, it.name)}${c.t('span', `items.${i}.role`, it.role, 'muted')}</div>`).join('')}</div></div>`
+  },
+  pricing: {
+    name: 'الأسعار', icon: '💳', cat: 'تسويق', align: 'center',
+    def: () => ({ eyebrow: 'الباقات', title: 'اختر الباقة المناسبة', subtitle: 'أسعار واضحة بدون مفاجآت.', items: [{ name: 'أساسي', price: '$0', period: '/شهرياً', features: 'ميزة أولى\nميزة ثانية\nدعم عبر البريد', btn: { text: 'ابدأ مجاناً', url: '#contact' }, featured: false, badge: '' }, { name: 'احترافي', price: '$19', period: '/شهرياً', features: 'كل ميزات الأساسي\nميزات متقدمة\nدعم أولوية\nتقارير مفصّلة', btn: { text: 'اشترك الآن', url: '#contact' }, featured: true, badge: 'الأكثر طلباً' }, { name: 'شركات', price: '$49', period: '/شهرياً', features: 'كل ميزات الاحترافي\nحسابات متعددة\nمدير حساب مخصص', btn: { text: 'تواصل معنا', url: '#contact' }, featured: false, badge: '' }] }),
+    fields: [...HEADF, ls('items', 'الباقات', [tx('name', 'اسم الباقة'), tx('price', 'السعر'), tx('period', 'الفترة'), ta('features', 'المزايا (كل سطر ميزة)', { rows: 4 }), gp('btn', 'الزر', BTN), ck('featured', 'باقة مميّزة'), tx('badge', 'شارة (للمميّزة)')], 'name', { name: 'باقة جديدة', price: '$0', period: '/شهرياً', features: 'ميزة', btn: { text: 'اختر', url: '#contact' }, featured: false, badge: '' })],
+    render: (d, c) => `<div class="wrap">${head(c, d)}<div class="grid cols-3">${d.items.map((it, i) => `<div class="card price-card ${it.featured ? 'featured' : ''}">${it.featured && (it.badge || c.edit) ? c.t('span', `items.${i}.badge`, it.badge, 'badge') : ''}${c.t('h3', `items.${i}.name`, it.name)}<div class="price">${c.t('span', `items.${i}.price`, it.price)}${c.t('small', `items.${i}.period`, it.period)}</div><ul class="checks">${String(it.features || '').split('\n').map(x => x.trim()).filter(Boolean).map(x => `<li><span>${esc(x)}</span></li>`).join('')}</ul>${c.btn(`items.${i}.btn`, it.btn, it.featured ? '' : 'ghost')}</div>`).join('')}</div></div>`
+  },
+  testimonials: {
+    name: 'آراء العملاء', icon: '💬', cat: 'تسويق', align: 'center',
+    def: () => ({ eyebrow: 'آراء العملاء', title: 'ماذا يقول عملاؤنا', subtitle: '', items: [{ text: 'تجربة رائعة من البداية للنهاية، النتيجة فاقت توقعاتي بكثير.', name: 'خالد العمري', role: 'رائد أعمال', avatar: '' }, { text: 'احترافية عالية وسرعة في التنفيذ. أنصح بالتعامل معهم بدون تردد.', name: 'نور الهدى', role: 'مديرة تسويق', avatar: '' }, { text: 'فريق متعاون ومبدع، حوّلوا فكرتي إلى واقع جميل.', name: 'يوسف كريم', role: 'صاحب متجر', avatar: '' }] }),
+    fields: [...HEADF, ls('items', 'الآراء', [ta('text', 'الرأي', { rows: 3 }), tx('name', 'الاسم'), tx('role', 'الوظيفة'), im('avatar', 'صورة (اختياري)')], 'name', { text: 'رأي جديد', name: 'اسم العميل', role: 'الوظيفة', avatar: '' })],
+    render: (d, c) => `<div class="wrap">${head(c, d)}<div class="grid cols-3">${d.items.map((it, i) => `<div class="card quote">${c.t('p', `items.${i}.text`, it.text, '', true)}<div class="who">${it.avatar ? c.img(`items.${i}.avatar`, it.avatar, it.name, 'av') : `<span class="av">${esc(String(it.name || '؟').trim().charAt(0))}</span>`}<div>${c.t('b', `items.${i}.name`, it.name)}${c.t('small', `items.${i}.role`, it.role)}</div></div></div>`).join('')}</div></div>`
+  },
+  faq: {
+    name: 'الأسئلة الشائعة', icon: '❓', cat: 'تسويق', align: 'center',
+    def: () => ({ eyebrow: 'مساعدة', title: 'الأسئلة الشائعة', subtitle: '', items: [{ q: 'كيف أبدأ؟', a: 'تواصل معنا عبر النموذج وسنرد عليك خلال 24 ساعة.' }, { q: 'ما هي طرق الدفع؟', a: 'نقبل التحويل البنكي والدفع الإلكتروني.' }, { q: 'هل يوجد ضمان؟', a: 'نعم، نقدّم ضمان استرجاع خلال 14 يوماً.' }] }),
+    fields: [...HEADF, ls('items', 'الأسئلة', [tx('q', 'السؤال'), ta('a', 'الجواب', { rows: 3 })], 'q', { q: 'سؤال جديد؟', a: 'الجواب هنا.' })],
+    render: (d, c) => `<div class="wrap">${head(c, d)}<div class="faq">${d.items.map((it, i) => `<details${c.edit ? ' open' : ''}><summary>${c.t('span', `items.${i}.q`, it.q)}</summary>${c.t('p', `items.${i}.a`, it.a, '', true)}</details>`).join('')}</div></div>`
+  },
+  cta: {
+    name: 'دعوة لاتخاذ إجراء', icon: '📣', cat: 'تسويق', align: 'center', style: { bg: 'primary' },
+    def: () => ({ title: 'جاهز للبدء؟', text: 'انضم إلينا اليوم وابدأ رحلتك نحو نتائج أفضل.', btn: { text: 'ابدأ الآن', url: '#contact' } }),
+    fields: [tx('title', 'العنوان'), ta('text', 'النص', { rows: 2 }), gp('btn', 'الزر', BTN)],
+    render: (d, c) => `<div class="wrap"><div class="cta-box">${c.t('h2', 'title', d.title)}${c.t('p', 'text', d.text, 'lead', true)}<div class="actions">${c.btn('btn', d.btn)}</div></div></div>`
+  },
+  contact: {
+    name: 'تواصل معنا', icon: '✉️', cat: 'تسويق', align: 'start',
+    def: () => ({ eyebrow: 'تواصل', title: 'يسعدنا سماعك', subtitle: 'أرسل رسالتك وسنعاود الاتصال بك قريباً.', email: 'hello@example.com', phone: '+964 770 000 0000', address: 'بغداد، العراق', hours: '', showForm: true, formAction: '', btnText: 'إرسال الرسالة' }),
+    fields: [...HEADF, tx('email', 'البريد الإلكتروني'), tx('phone', 'الهاتف'), tx('address', 'العنوان'), tx('hours', 'ساعات العمل (اختياري)'), ck('showForm', 'إظهار نموذج المراسلة'), { k: 'formAction', l: 'رابط استقبال النموذج (Formspree مثلاً — اتركه فارغاً ليفتح بريد الزائر)', t: 'url' }, tx('btnText', 'نص زر الإرسال')],
+    render: (d, c) => {
+      const row = (e, k, v, href) => ((v || c.edit) ? `<div class="card"><span class="ico">${e}</span>${href ? `<a href="${esc(href)}">${c.t('span', k, v)}</a>` : c.t('span', k, v)}</div>` : '');
+      const info = row('📧', 'email', d.email, 'mailto:' + d.email) + row('📞', 'phone', d.phone, 'tel:' + String(d.phone).replace(/\s/g, '')) + row('📍', 'address', d.address) + row('🕒', 'hours', d.hours);
+      const form = d.showForm ? `<form class="card cf" ${d.formAction ? `action="${esc(safeUrl(d.formAction))}" method="POST"` : `data-to="${esc(d.email)}" onsubmit="return ${c.edit ? 'false' : 'bnMail(this)'}"`}><input name="name" placeholder="${c.L('الاسم', 'Name')}" required><input name="email" type="email" placeholder="${c.L('البريد الإلكتروني', 'Email')}" required><textarea name="message" placeholder="${c.L('رسالتك', 'Message')}" required></textarea><button class="btn" type="submit">${c.t('span', 'btnText', d.btnText)}</button></form>` : '';
+      return `<div class="wrap">${head(c, d)}<div class="contact ${d.showForm ? '' : 'one'}"><div class="info">${info}</div>${form}</div></div>`;
+    }
+  },
+  spacer: {
+    name: 'مسافة فارغة', icon: '↕️', cat: 'متقدم', style: { pad: 'none' },
+    def: () => ({ height: 60 }),
+    fields: [nm('height', 'الارتفاع (بكسل)', 10, 300, 5)],
+    render: d => `<div style="height:${+d.height || 40}px"></div>`
+  },
+  html: {
+    name: 'كود HTML', icon: '🧩', cat: 'متقدم', style: { pad: 'none' },
+    def: () => ({ code: '<div style="padding:40px;text-align:center"><h3>بلوك HTML مخصّص</h3><p>ضع أي كود هنا: خريطة، أداة، ودجت...</p></div>' }),
+    fields: [ta('code', 'كود HTML', { rows: 10, mono: true })],
+    render: (d, c) => d.code || (c.edit ? '<div class="wrap" style="padding:30px 0;text-align:center;opacity:.6">بلوك HTML فارغ</div>' : '')
+  },
+  footer: {
+    name: 'التذييل', icon: '⬇️', cat: 'الهيكل', unique: true, tag: 'footer', align: 'start', style: { bg: 'alt', pad: 'sm' },
+    def: () => ({ brand: 'اسم موقعي', copy: '© ' + new Date().getFullYear() + ' جميع الحقوق محفوظة', links: [{ text: 'الرئيسية', url: '#top' }, { text: 'تواصل', url: '#contact' }], social: [{ name: 'Instagram', url: '#' }, { name: 'Telegram', url: '#' }] }),
+    fields: [tx('brand', 'اسم الموقع'), tx('copy', 'نص الحقوق'), ls('links', 'روابط', [tx('text', 'النص'), ur('url', 'الرابط')], 'text', { text: 'رابط', url: '#' }), ls('social', 'حسابات التواصل', [tx('name', 'الاسم'), ur('url', 'الرابط')], 'name', { name: 'حساب', url: 'https://' })],
+    render: (d, c) => `<div class="wrap"><div class="foot"><a class="brand" href="#top">${c.t('span', 'brand', d.brand, 'brand-name')}</a><div class="foot-links">${d.links.map((l, i) => `<a href="${esc(safeUrl(l.url))}">${c.t('span', `links.${i}.text`, l.text)}</a>`).join('')}</div><div class="foot-soc">${d.social.map((s, i) => `<a class="soc" href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener">${c.t('span', `social.${i}.name`, s.name)}</a>`).join('')}</div><p class="copy">${c.t('span', 'copy', d.copy)}</p></div></div>`
+  }
+};
+const CATS = ['الهيكل', 'أساسية', 'عرض', 'تسويق', 'متقدم'];
+
+function renderSection(s, c) {
+  const B = BLOCKS[s.type];
+  if (!B || s.hidden) return '';
+  const st = { ...DEF_STYLE, ...(s.style || {}) };
+  let bg = 'var(--bg)', fg = 'var(--text)';
+  if (st.bg === 'alt') bg = 'var(--surface)';
+  else if (st.bg === 'primary') { bg = 'linear-gradient(135deg,var(--primary),var(--accent))'; fg = 'var(--on-primary)'; }
+  else if (st.bg === 'dark') { bg = '#0f172a'; fg = '#f8fafc'; }
+  else if (st.bg === 'custom') { bg = st.bgColor; fg = onColor(st.bgColor); }
+  const py = { none: '0px', sm: '44px', md: '92px', lg: '136px' }[st.pad] || '92px';
+  const baseAl = typeof B.align === 'function' ? B.align(s.data) : (B.align || 'start');
+  const al = st.align === 'auto' ? baseAl : st.align;
+  const cls = ['sec', 'sec-' + s.type, B.cls ? B.cls(s.data) : ''].filter(Boolean).join(' ');
+  const tag = B.tag || 'section';
+  return `<${tag} class="${cls}" id="${esc(s.anchor || s.id)}" data-sec="${s.id}" data-bg="${esc(st.bg)}" style="--s-bg:${bg};--s-fg:${fg};--s-py:${py};text-align:${al}">${B.render(s.data, c, s)}</${tag}>`;
+}
+
+/* سكربت المعاينة التفاعلية (يُحقن داخل الـ iframe) */
+function editRuntime(y0, sid, jump) {
+  var tb = null, sel = null;
+  function P(m) { parent.postMessage(m, '*'); }
+  function secEl(id) { return document.querySelector('[data-sec="' + id + '"]'); }
+  function mark(root) {
+    (root || document).querySelectorAll('[data-f]').forEach(function (e) {
+      e.contentEditable = 'plaintext-only';
+      if (e.contentEditable !== 'plaintext-only') e.contentEditable = 'true';
+      e.spellcheck = false;
+    });
+  }
+  function mk() {
+    if (tb) return;
+    tb = document.createElement('div'); tb.id = 'bn-tb';
+    tb.innerHTML = '<button data-tb="up" title="تحريك للأعلى">↑</button><button data-tb="down" title="تحريك للأسفل">↓</button><button data-tb="dup" title="تكرار">⧉</button><button data-tb="hide" title="إخفاء">◐</button><button data-tb="del" title="حذف">✕</button>';
+    document.body.appendChild(tb);
+  }
+  function place() {
+    if (!sel || !tb) return;
+    var el = secEl(sel);
+    if (!el) { tb.style.display = 'none'; return; }
+    var r = el.getBoundingClientRect();
+    tb.style.display = 'flex'; tb.style.top = (r.top + window.scrollY + 10) + 'px';
+  }
+  function select(id, quiet) {
+    var o = document.querySelector('.is-sel'); if (o) o.classList.remove('is-sel');
+    sel = id; mk();
+    if (!id) { tb.style.display = 'none'; if (!quiet) P({ t: 'sel', id: null }); return; }
+    var el = secEl(id);
+    if (!el) { tb.style.display = 'none'; return; }
+    el.classList.add('is-sel'); place();
+    if (!quiet) P({ t: 'sel', id: id });
+  }
+  mark();
+  if (sid) {
+    select(sid, true);
+    var se = secEl(sid);
+    if (jump && se) se.scrollIntoView({ block: 'start', behavior: 'instant' });
+    else window.scrollTo({ top: y0, behavior: 'instant' });
+  } else { window.scrollTo({ top: y0, behavior: 'instant' }); }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-tb]');
+    if (b) { e.preventDefault(); P({ t: 'act', a: b.getAttribute('data-tb'), id: sel }); return; }
+    if (e.target.closest('a')) e.preventDefault();
+    if (e.target.closest('summary')) e.preventDefault();
+    var s = e.target.closest('[data-sec]');
+    if (!s) { select(null); return; }
+    var id = s.getAttribute('data-sec');
+    if (id !== sel) select(id);
+    var im = e.target.closest('[data-img]');
+    if (im) P({ t: 'img', id: id, path: im.getAttribute('data-img') });
+  }, true);
+  document.addEventListener('keydown', function (e) {
+    var f = e.target.closest && e.target.closest('[data-f]');
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); P({ t: 'save' }); return; }
+    if (f && e.key === 'Enter' && !f.hasAttribute('data-ml')) { e.preventDefault(); f.blur(); }
+  });
+  document.addEventListener('paste', function (e) {
+    var f = e.target.closest && e.target.closest('[data-f]'); if (!f) return;
+    e.preventDefault();
+    var t = (e.clipboardData || window.clipboardData).getData('text/plain');
+    document.execCommand('insertText', false, f.hasAttribute('data-ml') ? t : t.replace(/\s*\n\s*/g, ' '));
+  });
+  document.addEventListener('input', function (e) {
+    var f = e.target.closest && e.target.closest('[data-f]'); if (!f) return;
+    var s = f.closest('[data-sec]'); if (!s) return;
+    P({ t: 'edit', id: s.getAttribute('data-sec'), path: f.getAttribute('data-f'), value: f.innerText.replace(/\n+$/, '') });
+    place();
+  });
+  window.addEventListener('message', function (e) {
+    var m = e.data || {};
+    if (m.t === 'patch') {
+      var el = secEl(m.id); if (!el) return;
+      var was = el.classList.contains('is-sel');
+      el.outerHTML = m.html;
+      el = secEl(m.id); if (!el) return;
+      mark(el); if (was) el.classList.add('is-sel');
+      place();
+    } else if (m.t === 'select') {
+      select(m.id, true);
+      var x = m.id && secEl(m.id);
+      if (x && m.jump) x.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    } else if (m.t === 'css') {
+      document.getElementById('bn-css').textContent = m.css;
+      var l = document.getElementById('bn-font');
+      if (l && l.getAttribute('href') !== m.font) l.setAttribute('href', m.font);
+      document.documentElement.dir = m.dir; document.documentElement.lang = m.lang;
+      place();
+    }
+  });
+  var st; window.addEventListener('scroll', function () { clearTimeout(st); st = setTimeout(function () { P({ t: 'scroll', y: window.scrollY }); }, 80); }, { passive: true });
+  window.addEventListener('load', place);
+  if (window.ResizeObserver) new ResizeObserver(place).observe(document.body);
+}
+
+const exportJS = th => `<script>
+function bnMail(f){var t=f.getAttribute('data-to');var b='Name: '+f.elements['name'].value+'\\nEmail: '+f.elements['email'].value+'\\n\\n'+f.elements['message'].value;location.href='mailto:'+t+'?subject='+encodeURIComponent('Website message')+'&body='+encodeURIComponent(b);return false}
+document.addEventListener('click',function(e){if(e.target.closest('.nav-links a')){var h=document.querySelector('.sec-navbar');if(h)h.classList.remove('open')}});
+${th.anim ? `(function(){if(!('IntersectionObserver' in window))return;var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.1});document.querySelectorAll('.sec:not(.sec-navbar) .wrap>*').forEach(function(el){el.classList.add('rv');io.observe(el)})})();` : ''}
+<\/script>`;
+
+function buildHTML(p, o = {}) {
+  const th = { ...DEF_THEME, ...p.theme }, edit = !!o.edit, c = mkCtx(edit, th.lang);
+  const body = p.sections.map(s => renderSection(s, c)).join('\n');
+  const fav = th.favicon ? `<link rel="icon" href="data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">${esc(th.favicon)}</text></svg>`)}">` : '';
+  const ttl = esc(th.title || p.name);
+  return `<!DOCTYPE html>
+<html lang="${esc(th.lang)}" dir="${esc(th.dir)}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${ttl}</title>
+<meta name="description" content="${esc(th.desc)}">
+<meta property="og:title" content="${ttl}">
+<meta property="og:description" content="${esc(th.desc)}">
+<meta name="theme-color" content="${esc(th.primary)}">
+${fav}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link id="bn-font" rel="stylesheet" href="${fontHref(th)}">
+<style id="bn-css">${fullCSS(th)}</style>
+${edit ? `<style>${EDIT_CSS}</style>` : (th.headCode || '')}
+</head>
+<body id="top"${edit ? ' class="is-edit"' : ''}>
+${body || (edit ? '<div class="empty-pg"><div><div style="font-size:48px">🧱</div><p>الصفحة فارغة — أضف أول قسم من القائمة الجانبية</p></div></div>' : '')}
+${edit ? `<script>(${editRuntime.toString()})(${+o.scroll || 0},${JSON.stringify(o.sid || null)},${o.jump ? 'true' : 'false'})<\/script>` : (o.thumb ? '' : exportJS(th))}
+</body>
+</html>`;
+}
+
+/* =====================================================================
+   القوالب
+   ===================================================================== */
+const S = (type, data = {}, style = {}, anchor) => ({ id: uid(), type, anchor: anchor || type, hidden: false, data: { ...BLOCKS[type].def(), ...data }, style: { ...DEF_STYLE, ...(BLOCKS[type].style || {}), ...style } });
+
+const TEMPLATES = {
+  blank: {
+    name: 'صفحة فارغة', emoji: '📄', desc: 'ابدأ من الصفر', theme: {},
+    make: () => [S('navbar'), S('hero'), S('footer')]
+  },
+  landing: {
+    name: 'صفحة منتج', emoji: '🚀', desc: 'تطبيق أو خدمة أو منتج', theme: { primary: '#6d5dfc', accent: '#22d3ee', font: 'Tajawal' },
+    make: () => [
+      S('navbar', { brand: 'تطبيقي', logo: '⚡', links: [{ text: 'المميزات', url: '#features' }, { text: 'الأسعار', url: '#pricing' }, { text: 'أسئلة', url: '#faq' }, { text: 'تواصل', url: '#contact' }], cta: { text: 'جرّب مجاناً', url: '#pricing' } }),
+      S('hero', { layout: 'split', eyebrow: '🎉 إصدار جديد', title: 'أنجز أعمالك أسرع بثلاث مرات', subtitle: 'تطبيق ذكي ينظّم مهامك ويوفّر وقتك، مصمم ليكون بسيطاً وقوياً في آنٍ واحد.', btn1: { text: 'ابدأ مجاناً', url: '#pricing' }, btn2: { text: 'شاهد المميزات', url: '#features' }, image: ph(0) }),
+      S('stats'),
+      S('features', { title: 'كل ما تحتاجه في مكان واحد', cols: '3', items: [{ icon: '⚡', title: 'سرعة فائقة', text: 'أداء لحظي بدون أي تأخير.' }, { icon: '🎨', title: 'تصميم أنيق', text: 'واجهة جميلة وسهلة الاستخدام.' }, { icon: '🔒', title: 'أمان تام', text: 'بياناتك مشفّرة ومحمية دائماً.' }, { icon: '📱', title: 'على كل جهاز', text: 'يعمل على الهاتف والحاسوب.' }, { icon: '🔄', title: 'مزامنة تلقائية', text: 'ابقَ محدّثاً في كل مكان.' }, { icon: '💬', title: 'دعم سريع', text: 'فريقنا جاهز لمساعدتك.' }] }, { bg: 'alt' }),
+      S('pricing'),
+      S('testimonials', {}, { bg: 'alt' }),
+      S('faq'),
+      S('cta', { title: 'ابدأ رحلتك اليوم', text: 'انضم لآلاف المستخدمين الذين وفّروا وقتهم وضاعفوا إنتاجيتهم.', btn: { text: 'أنشئ حسابك المجاني', url: '#pricing' } }),
+      S('contact', { title: 'عندك سؤال؟' }),
+      S('footer', { brand: 'تطبيقي' })
+    ]
+  },
+  portfolio: {
+    name: 'معرض أعمال شخصي', emoji: '👤', desc: 'مصمم، مبرمج، مصوّر…', theme: { primary: '#8b5cf6', accent: '#ec4899', font: 'Cairo' },
+    make: () => [
+      S('navbar', { brand: 'اسمي', logo: 'م', links: [{ text: 'نبذة', url: '#about' }, { text: 'خدماتي', url: '#features' }, { text: 'أعمالي', url: '#gallery' }, { text: 'تواصل', url: '#contact' }], cta: { text: 'وظّفني', url: '#contact' } }),
+      S('hero', { layout: 'split', eyebrow: '👋 أهلاً بك', title: 'أنا مصمم ومطوّر مواقع', subtitle: 'أساعد الشركات والأفراد على بناء حضور رقمي أنيق وسريع يحقق أهدافهم.', btn1: { text: 'شاهد أعمالي', url: '#gallery' }, btn2: { text: 'راسلني', url: '#contact' }, image: ph(3) }),
+      S('about', { eyebrow: 'من أنا', title: 'شغف بالتصميم والتفاصيل', text: 'مصمم ومطوّر بخبرة تتجاوز خمس سنوات، أحب تحويل الأفكار إلى تجارب رقمية جميلة وسهلة الاستخدام.', btn: { text: 'حمّل السيرة الذاتية', url: '#' }, image: ph(1) }, { bg: 'alt' }),
+      S('features', { eyebrow: 'ما أقدمه', title: 'خدماتي', subtitle: 'حلول متكاملة من الفكرة حتى الإطلاق.', items: [{ icon: '🎨', title: 'تصميم واجهات', text: 'واجهات عصرية تركّز على تجربة المستخدم.' }, { icon: '💻', title: 'تطوير مواقع', text: 'مواقع سريعة ومتجاوبة مع كل الشاشات.' }, { icon: '🚀', title: 'هوية بصرية', text: 'شعار وألوان وخطوط تعبّر عن علامتك.' }] }),
+      S('gallery', { title: 'أعمالي' }, { bg: 'alt' }),
+      S('testimonials'),
+      S('contact', { title: 'لنعمل معاً' }, { bg: 'alt' }),
+      S('footer', { brand: 'اسمي' })
+    ]
+  },
+  restaurant: {
+    name: 'مطعم / كافيه', emoji: '🍽️', desc: 'قائمة وصور وموقع', theme: { primary: '#d97706', accent: '#dc2626', font: 'El Messiri' },
+    make: () => [
+      S('navbar', { brand: 'مطعم الأصالة', logo: '🍽️', links: [{ text: 'عنّا', url: '#about' }, { text: 'قائمتنا', url: '#features' }, { text: 'معرض', url: '#gallery' }, { text: 'احجز', url: '#contact' }], cta: { text: 'احجز طاولة', url: '#contact' } }),
+      S('hero', { layout: 'cover', eyebrow: '🔥 طعم أصيل', title: 'نكهات تبقى في الذاكرة', subtitle: 'أطباق محضّرة بحب من أجود المكونات الطازجة في أجواء دافئة.', btn1: { text: 'احجز طاولة', url: '#contact' }, btn2: { text: 'تصفّح القائمة', url: '#features' }, image: ph(5, 1600, 900) }),
+      S('about', { eyebrow: 'قصتنا', title: 'مطبخ عائلي منذ 1995', text: 'بدأنا بوصفات الجدّة وكبرنا بحب زبائننا. نقدّم أطباقاً تقليدية بلمسة عصرية.', bullets: [{ text: 'مكونات طازجة يومياً' }, { text: 'وصفات عائلية أصيلة' }, { text: 'جلسات عائلية مريحة' }], btn: { text: 'احجز الآن', url: '#contact' }, image: ph(1), imgPos: 'end' }),
+      S('features', { eyebrow: 'القائمة', title: 'أطباقنا المميزة', subtitle: 'اخترنا لك الأفضل.', items: [{ icon: '🍖', title: 'مشويات مشكّلة', text: 'تشكيلة من اللحوم المشوية على الفحم.' }, { icon: '🍚', title: 'مندي وكبسة', text: 'أرز بنكهة التوابل الأصيلة.' }, { icon: '🥗', title: 'سلطات ومقبلات', text: 'طازجة ومتنوعة لكل الأذواق.' }, { icon: '🍰', title: 'حلويات', text: 'نهاية حلوة لوجبة مثالية.' }, { icon: '☕', title: 'مشروبات', text: 'قهوة وشاي وعصائر طبيعية.' }, { icon: '🎂', title: 'مناسبات', text: 'نجهّز لك حفلتك بالكامل.' }] }, { bg: 'alt' }),
+      S('gallery', { title: 'لقطات من مطعمنا', eyebrow: 'المعرض' }),
+      S('testimonials', { title: 'زبائننا يقولون' }, { bg: 'alt' }),
+      S('contact', { title: 'احجز طاولتك', subtitle: 'ساعات العمل يومياً من 12 ظهراً حتى 12 ليلاً.', hours: 'يومياً 12 ظهراً – 12 ليلاً' }),
+      S('footer', { brand: 'مطعم الأصالة' })
+    ]
+  },
+  business: {
+    name: 'شركة / خدمات', emoji: '🏢', desc: 'موقع تعريفي احترافي', theme: { primary: '#0f766e', accent: '#2563eb', font: 'Almarai' },
+    make: () => [
+      S('navbar', { brand: 'شركة المستقبل', logo: 'م', links: [{ text: 'خدماتنا', url: '#features' }, { text: 'من نحن', url: '#about' }, { text: 'الفريق', url: '#team' }, { text: 'تواصل', url: '#contact' }], cta: { text: 'اطلب عرض سعر', url: '#contact' } }),
+      S('hero', { layout: 'center', eyebrow: 'حلول أعمال متكاملة', title: 'نبني نجاحك خطوة بخطوة', subtitle: 'نقدّم استشارات وخدمات احترافية تساعد شركتك على النمو والتوسع بثقة.', btn1: { text: 'اطلب عرض سعر', url: '#contact' }, btn2: { text: 'خدماتنا', url: '#features' } }),
+      S('stats'),
+      S('features', { eyebrow: 'خدماتنا', title: 'ماذا نقدّم لك', items: [{ icon: '📈', title: 'استشارات أعمال', text: 'خطط نمو مبنية على بيانات حقيقية.' }, { icon: '🛠️', title: 'حلول تقنية', text: 'أنظمة وبرمجيات تناسب احتياجك.' }, { icon: '📣', title: 'تسويق رقمي', text: 'حملات تصل لجمهورك المستهدف.' }] }, { bg: 'alt' }),
+      S('about', { title: 'شريكك في النجاح', imgPos: 'end' }),
+      S('team', {}, { bg: 'alt' }),
+      S('cta', { title: 'جاهزون لمساعدتك', text: 'تواصل معنا اليوم واحصل على استشارة أولية مجانية.', btn: { text: 'احجز استشارة', url: '#contact' } }),
+      S('contact'),
+      S('footer', { brand: 'شركة المستقبل' })
+    ]
+  }
+};
+
+/* =====================================================================
+   الحالة العامة
+   ===================================================================== */
+let projects = [];
+let cur = null;
+let selId = null;
+let hist = [], hp = 0;
+let lastScroll = 0;
+let frame = null;
+const ui = { view: 'dash', theme: (() => { try { return localStorage.getItem('bn_ui') || 'dark'; } catch (e) { return 'dark'; } })(), ltab: 'add', ptab: 'sec', device: 'desktop', q: '' };
+let tSave, tPatch, tTheme, tRel, tHist, tLay;
+const root = $('#app');
+
+const curSec = () => (cur && selId ? cur.sections.find(s => s.id === selId) : null);
+const secById = id => cur.sections.find(s => s.id === id);
+
+/* Toasts & modals */
+function toast(msg, type = 'ok', action) {
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.innerHTML = `<span>${esc(msg)}</span>${action ? `<button>${esc(action.label)}</button>` : ''}`;
+  if (action) $('button', el).onclick = () => { action.fn(); el.remove(); };
+  $('#toasts').appendChild(el);
+  setTimeout(() => el.remove(), action ? 6000 : 2600);
+}
+function modal(html, wide) {
+  closeModal();
+  const bk = document.createElement('div');
+  bk.className = 'mbk';
+  bk.innerHTML = `<div class="md ${wide ? 'wide' : ''}" role="dialog">${html}</div>`;
+  bk.addEventListener('mousedown', e => { if (e.target === bk) closeModal(); });
+  $('#modal-root').appendChild(bk);
+  return bk;
+}
+function closeModal() { $('#modal-root').innerHTML = ''; }
+function confirmBox(msg, okLabel = 'حذف') {
+  return new Promise(res => {
+    const m = modal(`<div class="mb"><h3 style="margin-bottom:8px">تأكيد</h3><p class="hint" style="font-size:14.5px">${esc(msg)}</p></div><div class="mf"><button class="btn-s ghost" data-x="0">إلغاء</button><button class="btn-s dn" data-x="1" style="background:var(--dn);color:#fff">${esc(okLabel)}</button></div>`);
+    $$('[data-x]', m).forEach(b => b.onclick = () => { closeModal(); res(b.dataset.x === '1'); });
+  });
+}
+
+/* =====================================================================
+   حفظ / تاريخ
+   ===================================================================== */
+function setSave(s) {
+  const el = $('#saveSt'); if (!el) return;
+  el.className = 'sv ' + (s === 'saved' ? 'ok' : s === 'err' ? 'err' : '');
+  el.textContent = s === 'saved' ? '✓ تم الحفظ' : s === 'err' ? '⚠ تعذّر الحفظ' : 'جارٍ الحفظ…';
+}
+function saveNow() {
+  clearTimeout(tSave);
+  if (!cur) return Promise.resolve();
+  return DB.put(cur).then(() => { setSave('saved'); try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch (e) { } }).catch(() => setSave('err'));
+}
+function flushHist() {
+  clearTimeout(tHist);
+  const s = JSON.stringify(cur);
+  if (s !== hist[hp]) { hist = hist.slice(0, hp + 1); hist.push(s); if (hist.length > 80) hist.shift(); hp = hist.length - 1; }
+  updUndo();
+}
+function updUndo() { const u = $('[data-a=undo]'), r = $('[data-a=redo]'); if (u) u.disabled = hp <= 0; if (r) r.disabled = hp >= hist.length - 1; }
+function loadSnap() {
+  const i = projects.findIndex(p => p.id === cur.id);
+  cur = JSON.parse(hist[hp]); if (i >= 0) projects[i] = cur;
+  if (selId && !secById(selId)) selId = null;
+  reload(); renderLeft(); renderRight(); updUndo(); touchSave();
+}
+function undo() { flushHist(); if (hp > 0) { hp--; loadSnap(); } }
+function redo() { if (hp < hist.length - 1) { hp++; loadSnap(); } }
+function touchSave() { cur.updated = Date.now(); setSave('saving'); clearTimeout(tSave); tSave = setTimeout(saveNow, 450); }
+
+function touch(kind, o = {}) {
+  touchSave();
+  clearTimeout(tHist); tHist = setTimeout(flushHist, 500);
+  if (kind === 'sec' && !o.noPatch) { clearTimeout(tPatch); tPatch = setTimeout(() => patch(o.id || selId), 90); }
+  else if (kind === 'theme') { clearTimeout(tTheme); tTheme = setTimeout(pushTheme, 60); }
+  else if (kind === 'full') reload(o);
+}
+
+/* المعاينة */
+function post(m) { if (frame && frame.contentWindow) frame.contentWindow.postMessage(m, '*'); }
+function reload(o = {}) {
+  clearTimeout(tRel);
+  tRel = setTimeout(() => { if (frame && cur) frame.srcdoc = buildHTML(cur, { edit: true, scroll: lastScroll, sid: selId, jump: o.jump }); }, 30);
+}
+function patch(id) { const s = id && secById(id); if (!s) return; post({ t: 'patch', id, html: renderSection(s, mkCtx(true, cur.theme.lang)) }); }
+function pushTheme() { const th = cur.theme; post({ t: 'css', css: fullCSS(th), font: fontHref(th), dir: th.dir, lang: th.lang }); }
+
+/* بنية الأقسام */
+function uniqueAnchor(type) {
+  const used = new Set(cur ? cur.sections.map(s => s.anchor) : []);
+  if (!used.has(type)) return type;
+  let n = 2; while (used.has(type + n)) n++;
+  return type + n;
+}
+function structChanged(o = {}) { touch('full', o); renderLeft(); renderRight(); }
+function addSection(type) {
+  const B = BLOCKS[type];
+  if (B.unique) { const ex = cur.sections.find(s => s.type === type); if (ex) { toast('هذا القسم موجود مسبقاً — تم تحديده', 'warn'); select(ex.id, true); return; } }
+  const s = S(type, {}, {}, uniqueAnchor(type));
+  let i = cur.sections.length;
+  if (type === 'navbar') i = 0;
+  else if (type === 'footer') i = cur.sections.length;
+  else if (selId) i = cur.sections.findIndex(x => x.id === selId) + 1;
+  if (type !== 'footer' && cur.sections[i - 1] && cur.sections[i - 1].type === 'footer') i--;
+  cur.sections.splice(i, 0, s);
+  selId = s.id; ui.ptab = 'sec';
+  const ed = $('#ed'); if (ed) ed.classList.remove('show-lp');
+  structChanged({ jump: true });
+}
+function secAct(a, id) {
+  const arr = cur.sections, i = arr.findIndex(s => s.id === id);
+  if (i < 0) return;
+  let jump = false;
+  if (a === 'up') { if (i === 0) return; [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]]; jump = true; }
+  else if (a === 'down') { if (i >= arr.length - 1) return; [arr[i + 1], arr[i]] = [arr[i], arr[i + 1]]; jump = true; }
+  else if (a === 'dup') { if (BLOCKS[arr[i].type].unique) { toast('لا يمكن تكرار هذا القسم', 'warn'); return; } const n = clone(arr[i]); n.id = uid(); n.anchor = uniqueAnchor(arr[i].type); arr.splice(i + 1, 0, n); selId = n.id; jump = true; }
+  else if (a === 'hide') { arr[i].hidden = !arr[i].hidden; }
+  else if (a === 'del') { arr.splice(i, 1); if (selId === id) selId = null; toast('تم حذف القسم', 'ok', { label: 'تراجع', fn: undo }); }
+  flushHist();
+  structChanged({ jump });
+}
+function select(id, jump) {
+  selId = id;
+  if (id) ui.ptab = ui.ptab === 'sec' || ui.ptab === 'theme' || ui.ptab === 'adv' ? (ui.ptab === 'theme' || ui.ptab === 'adv' ? ui.ptab : 'sec') : 'sec';
+  renderLeft(); renderRight();
+  post({ t: 'select', id, jump: !!jump });
+}
+
+/* =====================================================================
+   الصور
+   ===================================================================== */
+function compress(f, max = 1600) {
+  return new Promise((res, rej) => {
+    if (/svg|gif/.test(f.type)) { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(f); return; }
+    const url = URL.createObjectURL(f), im = new Image();
+    im.onload = () => {
+      URL.revokeObjectURL(url);
+      const k = Math.min(1, max / Math.max(im.width, im.height)), cv = document.createElement('canvas');
+      cv.width = Math.round(im.width * k); cv.height = Math.round(im.height * k);
+      cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
+      let d = cv.toDataURL('image/webp', .86);
+      if (!d.startsWith('data:image/webp')) d = cv.toDataURL('image/jpeg', .86);
+      res(d);
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); rej(new Error('img')); };
+    im.src = url;
+  });
+}
+function pickImage(cb) {
+  const fi = $('#fileIn');
+  fi.onchange = async () => {
+    const f = fi.files[0]; fi.value = '';
+    if (!f) return;
+    try { cb(await compress(f)); } catch (e) { toast('تعذّر قراءة الصورة', 'err'); }
+  };
+  fi.click();
+}
+
+/* =====================================================================
+   نماذج الحقول (لوحة الخصائص)
+   ===================================================================== */
+function fld(f, val, path, r) {
+  const base = `data-r="${r}" data-p="${esc(path)}"`;
+  const lab = inner => `<label class="fl"><span class="fl-l">${esc(f.l)}</span>${inner}</label>`;
+  switch (f.t) {
+    case 'text': return lab(`<input class="in" ${base} data-ty="text" value="${esc(val)}">`);
+    case 'url': return lab(`<input class="in ltr" ${base} data-ty="text" value="${esc(val)}" placeholder="https://… أو #قسم">`);
+    case 'textarea': return lab(`<textarea class="in${f.mono ? ' ltr' : ''}" rows="${f.rows || 3}" ${base} data-ty="text"${f.mono ? ' spellcheck="false" style="font-family:ui-monospace,Consolas,monospace;font-size:12.5px"' : ''}>${esc(val)}</textarea>`);
+    case 'number': return lab(`<div class="rng"><input type="range" min="${f.min}" max="${f.max}" step="${f.step || 1}" value="${+val || 0}" ${base} data-ty="num"><b>${+val || 0}</b></div>`);
+    case 'color': return lab(`<div class="clr"><input type="color" value="${esc(val)}" ${base} data-ty="text"><input class="in ltr" value="${esc(val)}" data-sync="1" maxlength="7"></div>`);
+    case 'icon': return `<div class="fl"><span class="fl-l">${esc(f.l)}</span><div class="icf"><input class="in" ${base} data-ty="text" value="${esc(val)}"><button class="btn-s" data-a="pickicon" data-r="${r}" data-p="${esc(path)}">😀 اختر</button></div></div>`;
+    case 'check': return `<label class="chk"><input type="checkbox" ${base} data-ty="bool" ${val ? 'checked' : ''}><span>${esc(f.l)}</span></label>`;
+    case 'select': return lab(`<select class="in" ${base} data-ty="text">${f.o.map(([v, t]) => `<option value="${esc(v)}" ${String(v) === String(val) ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select>`);
+    case 'image': {
+      const v = String(val || '');
+      return `<div class="fl"><span class="fl-l">${esc(f.l)}</span><div class="imgf"><div class="thumb" style='background-image:url("${esc(v)}")'></div><div class="imgf-b"><button class="btn-s" data-a="img" ${base}>${ic('upload', 14)} رفع صورة</button><button class="btn-s ghost" data-a="imgx" ${base}>إزالة</button></div></div><input class="in ltr" ${base} data-ty="text" value="${esc(v.startsWith('data:') ? '' : v)}" placeholder="أو الصق رابط الصورة"></div>`;
+    }
+    case 'group': return `<div class="grp"><div class="grp-t">${esc(f.l)}</div>${f.f.map(g => fld(g, get(val || {}, g.k) ?? '', path + '.' + g.k, r)).join('')}</div>`;
+    case 'list': {
+      const arr = val || [];
+      return `<div class="lst"><div class="lst-h"><span>${esc(f.l)} <span class="hint">(${arr.length})</span></span><button class="btn-s" data-a="li" data-op="add" data-r="${r}" data-p="${esc(path)}">${ic('plus', 14)} إضافة</button></div>${arr.map((it, i) => `<details class="li"><summary><span class="li-t">${esc(clip(f.label ? it[f.label] : '', 26) || 'عنصر ' + (i + 1))}</span><span class="li-b"><button class="ib" data-a="li" data-op="up" data-i="${i}" data-r="${r}" data-p="${esc(path)}" title="للأعلى">${ic('up', 14)}</button><button class="ib" data-a="li" data-op="down" data-i="${i}" data-r="${r}" data-p="${esc(path)}" title="للأسفل">${ic('down', 14)}</button><button class="ib" data-a="li" data-op="del" data-i="${i}" data-r="${r}" data-p="${esc(path)}" title="حذف">${ic('trash', 14)}</button></span></summary><div class="li-body">${f.item.map(g => fld(g, get(it, g.k) ?? '', `${path}.${i}.${g.k}`, r)).join('')}</div></details>`).join('')}</div>`;
+    }
+  }
+  return '';
+}
+
+const STYLE_FIELDS = [
+  sl('bg', 'الخلفية', [['default', 'الافتراضية'], ['alt', 'فاتحة/مميّزة'], ['primary', 'لون الموقع (تدرّج)'], ['dark', 'داكنة'], ['custom', 'لون مخصص']]),
+  { k: 'bgColor', l: 'اللون المخصص (يعمل مع خيار: لون مخصص)', t: 'color' },
+  sl('pad', 'المسافة الرأسية', [['none', 'بدون'], ['sm', 'صغيرة'], ['md', 'متوسطة'], ['lg', 'كبيرة']]),
+  sl('align', 'محاذاة النص', [['auto', 'تلقائي'], ['start', 'بداية السطر'], ['center', 'المنتصف'], ['end', 'نهاية السطر']])
+];
+const THEME_FIELDS = [
+  tx('title', 'عنوان الموقع (يظهر في تبويب المتصفح)'), ta('desc', 'وصف الموقع (SEO)', { rows: 2 }), icn('favicon', 'أيقونة التبويب'),
+  { k: 'primary', l: 'اللون الأساسي', t: 'color' }, { k: 'accent', l: 'اللون الثانوي', t: 'color' },
+  { k: 'bg', l: 'لون الخلفية', t: 'color' }, { k: 'text', l: 'لون النص', t: 'color' },
+  nm('radius', 'استدارة الزوايا', 0, 32, 1),
+  sl('font', 'الخط', Object.keys(FONTS).map(k => [k, k])),
+  sl('lang', 'لغة الموقع', [['ar', 'العربية'], ['en', 'English']]), sl('dir', 'اتجاه الصفحة', [['rtl', 'من اليمين لليسار'], ['ltr', 'من اليسار لليمين']]),
+  ck('anim', 'حركة ظهور تدريجي عند التمرير')
+];
+
+/* =====================================================================
+   واجهة المحرر
+   ===================================================================== */
+function renderEditor() {
+  root.innerHTML = `<div class="ed" id="ed">
+  <header class="tb">
+    <button class="ib" data-a="back" title="مشاريعي">${ic('back')}</button>
+    <input class="pname" id="pname" value="${esc(cur.name)}" maxlength="60" aria-label="اسم المشروع">
+    <span class="sv ok" id="saveSt">✓ تم الحفظ</span>
+    <button class="ib mob" data-a="lpt" title="الأقسام">${ic('layers')}</button>
+    <span class="sp"></span>
+    <div class="tb-d">
+      <button class="ib ${ui.device === 'desktop' ? 'on' : ''}" data-a="dev" data-d="desktop" title="حاسوب">${ic('monitor')}</button>
+      <button class="ib ${ui.device === 'tablet' ? 'on' : ''}" data-a="dev" data-d="tablet" title="تابلت">${ic('tablet')}</button>
+      <button class="ib ${ui.device === 'mobile' ? 'on' : ''}" data-a="dev" data-d="mobile" title="هاتف">${ic('phone')}</button>
     </div>
+    <span class="sp"></span>
+    <button class="ib hide-m" data-a="undo" title="تراجع (Ctrl+Z)">${ic('undo')}</button>
+    <button class="ib hide-m" data-a="redo" title="إعادة (Ctrl+Y)">${ic('redo')}</button>
+    <span class="sep hide-m"></span>
+    <button class="ib" data-a="preview" title="معاينة في تبويب جديد">${ic('eye')}</button>
+    <button class="ib hide-m" data-a="code" title="عرض الكود">${ic('code')}</button>
+    <button class="btn-s" data-a="download" title="تحويل الموقع إلى كود HTML وتنزيله">${ic('download', 16)}<span class="hide-m">تنزيل</span></button>
+    <button class="btn-p" data-a="publish">${ic('rocket', 16)}<span class="hide-m">نشر</span></button>
+    <button class="ib hide-m" data-a="theme" title="مظهر المحرر">${ic(ui.theme === 'dark' ? 'sun' : 'moon')}</button>
+    <button class="ib mob" data-a="ppt" title="الخصائص">${ic('sliders')}</button>
+  </header>
+  <aside id="lp"><div class="tabs"><button data-a="ltab" data-t="add">إضافة قسم</button><button data-a="ltab" data-t="layers">الأقسام</button><button data-a="ltab" data-t="icons">الأيقونات</button></div><div class="pbody" id="lbody"></div></aside>
+  <main id="stage"><div class="fw" id="fw" data-d="${ui.device}"><iframe id="frame" title="معاينة الموقع"></iframe></div></main>
+  <aside id="pp"><div class="tabs"><button data-a="ptab" data-t="sec">القسم</button><button data-a="ptab" data-t="theme">التصميم</button><button data-a="ptab" data-t="adv">متقدّم</button></div><div class="pbody" id="pbody"></div></aside>
+  </div>`;
+  frame = $('#frame');
+  $('#pname').addEventListener('input', e => { cur.name = e.target.value || 'مشروع بدون اسم'; touch('none'); });
+  bindPanels();
+  renderLeft(); renderRight();
+  frame.srcdoc = buildHTML(cur, { edit: true, scroll: 0, sid: selId });
+  updUndo();
+  try { if (!localStorage.getItem('bn_tip')) { localStorage.setItem('bn_tip', '1'); setTimeout(() => toast('💡 اضغط على أي نص في المعاينة لتعديله مباشرة', 'ok'), 700); } } catch (e) { }
+}
 
-    <div class="mobile-header">
-        <h1>Rule 34</h1>
-        <div style="font-size:20px; font-weight:bold;">☰</div>
-    </div>
+function renderLeft() {
+  const b = $('#lbody'); if (!b) return;
+  $$('#lp .tabs button').forEach(x => x.classList.toggle('on', x.dataset.t === ui.ltab));
+  if (ui.ltab === 'add') {
+    b.innerHTML = CATS.map(cat => `<div class="cat">${cat}</div><div class="bgrid">${Object.entries(BLOCKS).filter(([, B]) => B.cat === cat).map(([k, B]) => `<button class="blk" data-a="add" data-b="${k}"><span class="bi">${B.icon}</span>${B.name}</button>`).join('')}</div>`).join('') + `<p class="hint" style="margin-top:16px">يُضاف القسم الجديد بعد القسم المحدّد حالياً.</p>`;
+  } else if (ui.ltab === 'icons') {
+    b.innerHTML = `<input class="in" id="icq" placeholder="ابحث أو الصق أيقونة…" value="${esc(ui.iq || '')}" style="margin-bottom:12px"><div id="icg">${iconGrid(ui.iq)}</div><p class="hint" style="margin-top:14px">اضغط أيقونة لإدراجها في الحقل المحدّد (أو لنسخها إن لم يكن هناك حقل).</p>`;
+    $('#icq').oninput = e => { ui.iq = e.target.value; $('#icg').innerHTML = iconGrid(ui.iq); };
+  } else {
+    const pt = s => { const d = s.data; const v = d.title || d.brand || d.text || d.body || (d.items && d.items[0] && (d.items[0].title || d.items[0].name || d.items[0].num)) || ''; return clip(v, 34); };
+    b.innerHTML = cur.sections.length ? cur.sections.map(s => { const B = BLOCKS[s.type]; return `<div class="ly ${s.id === selId ? 'on' : ''} ${s.hidden ? 'off' : ''}" draggable="true" data-id="${s.id}"><span class="grip">${ic('grip', 14)}</span><span class="ly-i">${B.icon}</span><span class="ly-n">${B.name}<small>${esc(pt(s))}</small></span><span class="ly-b"><button class="ib" data-a="ly" data-op="hide" title="إخفاء/إظهار">${ic(s.hidden ? 'eyeoff' : 'eye', 14)}</button><button class="ib" data-a="ly" data-op="dup" title="تكرار">${ic('copy', 14)}</button><button class="ib" data-a="ly" data-op="del" title="حذف">${ic('trash', 14)}</button></span></div>`; }).join('') : '<div class="empty-pp"><div class="big">🧱</div>لا توجد أقسام بعد</div>';
+  }
+}
 
-    <div class="search-container">
-        <div class="search-title">Search</div>
-        <input type="text" id="tagInput" class="search-input" placeholder="اكتب Tag واضغط عرض (مثلاً: cat)...">
-    </div>
+function renderRight() {
+  const b = $('#pbody'); if (!b) return;
+  const sc = b.scrollTop;
+  $$('#pp .tabs button').forEach(x => x.classList.toggle('on', x.dataset.t === ui.ptab));
+  let h = '';
+  if (ui.ptab === 'sec') {
+    const s = curSec();
+    if (!s) h = '<div class="empty-pp"><div class="big">👆</div>اختر قسماً من المعاينة أو من «أقسام الصفحة» لتعديل خصائصه</div>';
+    else {
+      const B = BLOCKS[s.type];
+      h = `<div class="pp-h"><span style="font-size:20px">${B.icon}</span>${B.name}</div>` + B.fields.map(f => fld(f, get(s.data, f.k) ?? '', f.k, 'd')).join('')
+        + `<div class="sec-t">تنسيق القسم</div>` + STYLE_FIELDS.map(f => fld(f, get({ ...DEF_STYLE, ...s.style }, f.k) ?? '', f.k, 's')).join('')
+        + fld(tx('anchor', 'معرّف القسم للروابط (مثال: about ← #about)'), s.anchor || '', 'anchor', 'x');
+    }
+  } else if (ui.ptab === 'theme') {
+    h = `<div class="pp-h">🎨 تصميم الموقع</div><div class="fl-l">ألوان جاهزة</div><div class="pal">${PALETTES.map((p, i) => `<button data-a="pal" data-i="${i}" style="background:linear-gradient(135deg,${p[0]},${p[1]})" title="لوحة ${i + 1}"></button>`).join('')}</div><div class="seg"><button data-a="mode" data-m="light">☀️ فاتح</button><button data-a="mode" data-m="dark">🌙 داكن</button></div>` + THEME_FIELDS.map(f => fld(f, get(cur.theme, f.k) ?? '', f.k, 't')).join('');
+  } else {
+    h = `<div class="pp-h">⚙️ متقدّم</div>` + fld(ta('customCSS', 'CSS مخصص', { rows: 7, mono: true }), cur.theme.customCSS || '', 'customCSS', 't') + fld(ta('headCode', 'كود إضافي داخل <head> (تحليلات، بكسل…)', { rows: 5, mono: true }), cur.theme.headCode || '', 'headCode', 't') + `<p class="hint">كود الـ head لا يعمل في المحرر؛ يظهر فقط في الملف المصدَّر أو المنشور.</p><div class="sec-t">المشروع</div><div class="seg"><button data-a="dl-json">${ic('json', 15)} نسخة JSON</button><button data-a="code">${ic('code', 15)} الكود</button></div><div class="seg"><button data-a="dl-html">index.html</button><button data-a="dl-zip">ZIP</button></div>`;
+  }
+  b.innerHTML = h; b.scrollTop = sc;
+}
 
-    <!-- شبكة الصور -->
-    <div class="image-grid" id="grid">
-        <div class="status-msg">اضغط على زر "عرض" لجلب الصور</div>
-    </div>
+function rootObj(r) { return r === 'd' ? (curSec() || {}).data : r === 's' ? (curSec() || {}).style : r === 'x' ? curSec() : r === 't' ? cur.theme : cur; }
 
-    <script>
-        async function loadData() {
-            const grid = document.getElementById('grid');
-            const customUrl = document.getElementById('targetUrl').value.trim();
-            const tag = document.getElementById('tagInput').value.trim();
-            
-            grid.innerHTML = '<div class="status-msg">جاري تحميل الصور...</div>';
+function applyInput(el) {
+  const r = el.dataset.r, p = el.dataset.p; if (!r || !p) return;
+  const o = rootObj(r); if (!o) return;
+  const v = el.dataset.ty === 'bool' ? el.checked : el.dataset.ty === 'num' ? +el.value : el.value;
+  if (el.type === 'range' && el.nextElementSibling) el.nextElementSibling.textContent = el.value;
+  if (el.type === 'color' && el.nextElementSibling) el.nextElementSibling.value = el.value;
+  setP(o, p, v);
+  if (r === 't') touch('theme'); else touch('sec');
+  if (r === 's' && p === 'bg' && v === 'custom') { /* لا شيء */ }
+  clearTimeout(tLay); if (ui.ltab === 'layers') tLay = setTimeout(renderLeft, 400);
+}
 
-            // إذا ما حطيت رابط، راح يجيب من الـ API المباشر مالهم حسب الـ Tag
-            let fetchUrl = customUrl;
-            if (!fetchUrl) {
-                const searchTag = tag ? encodeURIComponent(tag) : 'all';
-                fetchUrl = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&json=1&limit=20&tags=${searchTag}`;
-            }
+function bindPanels() {
+  const pp = $('#pbody');
+  pp.addEventListener('focusin', e => { const el = e.target; if (el.dataset && el.dataset.p && el.closest('.icf')) ui.iconT = { r: el.dataset.r, p: el.dataset.p }; });
+  const onIn = e => {
+    const el = e.target;
+    if (el.dataset.sync) { const v = el.value.trim(); if (/^#[0-9a-f]{6}$/i.test(v)) { const c = el.previousElementSibling; c.value = v; applyInput(c); } return; }
+    if (el.dataset.p) applyInput(el);
+  };
+  pp.addEventListener('input', onIn);
+  pp.addEventListener('change', e => { if (e.target.tagName === 'SELECT') onIn(e); });
+  // سحب وإفلات الطبقات
+  const lb = $('#lbody'); let dragId = null;
+  lb.addEventListener('dragstart', e => { const r = e.target.closest('.ly'); if (!r) return; dragId = r.dataset.id; e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', dragId); } catch (x) { } });
+  lb.addEventListener('dragover', e => { const r = e.target.closest('.ly'); if (!r || !dragId) return; e.preventDefault(); $$('.ly.over', lb).forEach(x => x.classList.remove('over')); r.classList.add('over'); });
+  lb.addEventListener('dragleave', e => { const r = e.target.closest('.ly'); if (r) r.classList.remove('over'); });
+  lb.addEventListener('drop', e => {
+    const r = e.target.closest('.ly'); if (!r || !dragId) return; e.preventDefault();
+    const arr = cur.sections, from = arr.findIndex(s => s.id === dragId), to = arr.findIndex(s => s.id === r.dataset.id);
+    dragId = null;
+    if (from < 0 || to < 0 || from === to) { renderLeft(); return; }
+    const [m] = arr.splice(from, 1); arr.splice(to, 0, m);
+    flushHist(); structChanged({ jump: false });
+  });
+  lb.addEventListener('dragend', () => { dragId = null; $$('.ly.over', lb).forEach(x => x.classList.remove('over')); });
+}
 
-            try {
-                // نستخدم بروكسي مجاني لتجاوز حظر CORS بالموبايل
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(fetchUrl)}`;
-                const response = await fetch(proxyUrl);
-                const data = await response.json();
-                
-                let posts = [];
-                try {
-                    posts = JSON.parse(data.contents);
-                } catch(e) {
-                    posts = data.contents;
-                }
+/* رسائل المعاينة */
+window.addEventListener('message', e => {
+  if (!cur || !frame || e.source !== frame.contentWindow) return;
+  const m = e.data || {};
+  switch (m.t) {
+    case 'sel': if (m.id !== selId) { selId = m.id; renderLeft(); renderRight(); } break;
+    case 'scroll': lastScroll = m.y; break;
+    case 'save': saveNow().then(() => toast('تم الحفظ')); break;
+    case 'edit': {
+      const s = secById(m.id); if (!s) break;
+      try { setP(s.data, m.path, m.value); } catch (x) { break; }
+      const inp = $(`#pbody [data-r="d"][data-p="${m.path}"]`);
+      if (inp && inp !== document.activeElement) inp.value = m.value;
+      touch('sec', { noPatch: true });
+      clearTimeout(tLay); if (ui.ltab === 'layers') tLay = setTimeout(renderLeft, 400);
+      break;
+    }
+    case 'img': {
+      const s = secById(m.id); if (!s) break;
+      pickImage(url => { setP(s.data, m.path, url); flushHist(); touch('sec', { id: s.id }); if (selId === s.id) renderRight(); });
+      break;
+    }
+    case 'act': if (m.id) secAct(m.a, m.id); break;
+  }
+});
 
-                grid.innerHTML = '';
+/* =====================================================================
+   لوحة المشاريع
+   ===================================================================== */
+function renderDash() {
+  const list = projects.filter(p => !ui.q || p.name.toLowerCase().includes(ui.q.toLowerCase()));
+  root.innerHTML = `<div class="dash">
+  <header class="dh"><div class="logo"><span class="lg">🧱</span><b>بنّاي</b><small>صانع المواقع</small></div>
+  <div class="dh-r"><button class="ib" data-a="theme" title="مظهر الواجهة">${ic(ui.theme === 'dark' ? 'sun' : 'moon')}</button><button class="btn-s" data-a="import">${ic('upload', 15)} استيراد مشروع</button><button class="btn-p" data-a="new">${ic('plus', 16)} مشروع جديد</button></div></header>
+  <section class="hero-d"><h1>ابنِ موقعك بنفسك<br><span>بدون ولا سطر كود</span></h1><p>اختر قالباً جاهزاً، عدّل النصوص والألوان والصور بالضغط عليها مباشرة، ثم انشر موقعك على GitHub Pages بضغطة زر.</p>
+  <div class="steps"><div><b>1</b> اختر قالباً</div><div><b>2</b> عدّل بالضغط</div><div><b>3</b> انشر مجاناً</div></div></section>
+  <section><div class="proj-h"><h2>مشاريعي <span class="hint">(${projects.length})</span></h2><input class="srch" id="srch" placeholder="ابحث عن مشروع…" value="${esc(ui.q)}"></div>
+  <div class="pgrid"><button class="pc new-card" data-a="new"><div><div class="plus">${ic('plus', 26)}</div><b>مشروع جديد</b><div class="hint">ابدأ من قالب أو صفحة فارغة</div></div></button>
+  ${list.map(p => `<article class="pc" data-a="open" data-id="${p.id}"><div class="thumbwrap"><iframe sandbox="" tabindex="-1" loading="lazy" srcdoc="${esc(buildHTML(p, { thumb: true }))}"></iframe></div><div class="pc-b"><div><b>${esc(p.name)}</b><small>${ago(p.updated)} · ${p.sections.length} قسم</small></div><div class="pc-a"><button class="ib" data-a="dup-p" data-id="${p.id}" title="نسخ">${ic('copy', 15)}</button><button class="ib" data-a="html-p" data-id="${p.id}" title="تنزيل index.html">${ic('code', 15)}</button><button class="ib" data-a="json-p" data-id="${p.id}" title="تنزيل JSON">${ic('download', 15)}</button><button class="ib" data-a="del-p" data-id="${p.id}" title="حذف">${ic('trash', 15)}</button></div></div></article>`).join('')}</div>
+  ${!list.length && projects.length ? '<div class="empty">لا نتائج مطابقة</div>' : ''}</section>
+  <div class="dfoot" id="dfoot">مشاريعك محفوظة على جهازك داخل المتصفح — خذ نسخة JSON احتياطية بين فترة وأخرى.</div></div>`;
+  const s = $('#srch'); if (s) s.addEventListener('input', e => { ui.q = e.target.value; const pos = e.target.selectionStart; renderDash(); const n = $('#srch'); n.focus(); n.setSelectionRange(pos, pos); });
+  scaleThumbs();
+  try { navigator.storage && navigator.storage.estimate && navigator.storage.estimate().then(x => { const f = $('#dfoot'); if (f && x.usage != null) f.textContent += ' · المساحة المستخدمة: ' + (x.usage / 1048576).toFixed(1) + ' MB'; }); } catch (e) { }
+}
+function scaleThumbs() { $$('.thumbwrap').forEach(w => w.style.setProperty('--k', (w.clientWidth / 1280).toFixed(4))); }
+window.addEventListener('resize', () => { if (ui.view === 'dash') scaleThumbs(); });
 
-                if (!posts || posts.length === 0) {
-                    grid.innerHTML = '<div class="status-msg">ماكو نتائج أو الرابط غلط!</div>';
-                    return;
-                }
+function newProjectModal() {
+  let tpl = 'landing';
+  const m = modal(`<div class="mh"><h3>مشروع جديد</h3><button class="ib" data-a="mx">${ic('x')}</button></div><div class="mb"><label class="fl"><span class="fl-l">اسم المشروع</span><input class="in" id="npn" placeholder="مثال: موقع شركتي" maxlength="60" autofocus></label><div class="fl-l">اختر قالباً</div><div class="tpls">${Object.entries(TEMPLATES).map(([k, t]) => `<button class="tpl ${k === tpl ? 'on' : ''}" data-tpl="${k}"><span class="e">${t.emoji}</span><b>${t.name}</b><small>${t.desc}</small></button>`).join('')}</div></div><div class="mf"><button class="btn-s ghost" data-a="mx">إلغاء</button><button class="btn-p" id="npc">إنشاء المشروع</button></div>`, true);
+  $$('.tpl', m).forEach(b => b.onclick = () => { tpl = b.dataset.tpl; $$('.tpl', m).forEach(x => x.classList.toggle('on', x === b)); });
+  const go = async () => {
+    const name = ($('#npn').value || '').trim() || TEMPLATES[tpl].name;
+    const t = TEMPLATES[tpl];
+    const p = { id: uid(), name, created: Date.now(), updated: Date.now(), theme: { ...DEF_THEME, ...t.theme, title: name }, sections: t.make() };
+    p.sections.forEach(s => { if (s.type === 'navbar' || s.type === 'footer') { if (s.data.brand && /اسم موقعي|تطبيقي|اسمي|مطعم|شركة/.test(s.data.brand) === false) s.data.brand = name; } });
+    projects.unshift(p);
+    try { await DB.put(p); } catch (e) { toast('تعذّر الحفظ في المتصفح', 'err'); }
+    closeModal(); openProject(p.id);
+  };
+  $('#npc').onclick = go;
+  $('#npn').addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  setTimeout(() => $('#npn') && $('#npn').focus(), 50);
+}
 
-                posts.forEach(post => {
-                    // تجريب استخراج رابط الصورة
-                    const imgUrl = post.file_url || post.sample_url || post.preview_url;
-                    if (imgUrl) {
-                        const card = document.createElement('div');
-                        card.className = 'image-card';
-                        card.innerHTML = `<img src="${imgUrl}" loading="lazy" onclick="window.open('${imgUrl}', '_blank')">`;
-                        grid.appendChild(card);
-                    }
-                });
+function openProject(id) {
+  cur = projects.find(p => p.id === id); if (!cur) return;
+  cur.theme = { ...DEF_THEME, ...cur.theme };
+  selId = null; hist = [JSON.stringify(cur)]; hp = 0; lastScroll = 0;
+  ui.view = 'editor'; ui.ptab = 'sec'; ui.ltab = 'add';
+  render();
+}
+function render() {
+  document.documentElement.dataset.ui = ui.theme;
+  root.innerHTML = '';
+  frame = null;
+  if (ui.view === 'dash') renderDash(); else renderEditor();
+}
 
-            } catch (err) {
-                console.error(err);
-                grid.innerHTML = '<div class="status-msg">صار خطأ بالسحب! اتأكد من الرابط أو شبكة النت.</div>';
-            }
-        }
-    </script>
+/* =====================================================================
+   تصدير: ZIP / تنزيل / نسخ
+   ===================================================================== */
+const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+const crc32 = b => { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+function makeZip(files) {
+  const enc = new TextEncoder(), parts = [], cen = []; let off = 0;
+  const u16 = n => [n & 255, n >> 8 & 255], u32 = n => [n & 255, n >> 8 & 255, n >> 16 & 255, n >>> 24 & 255];
+  files.forEach(f => {
+    const nm = enc.encode(f.name), data = enc.encode(f.data), crc = crc32(data), sz = data.length;
+    const lh = new Uint8Array([0x50, 0x4b, 3, 4, 20, 0, 0, 8, 0, 0, 0, 0, 0x21, 0, ...u32(crc), ...u32(sz), ...u32(sz), ...u16(nm.length), 0, 0]);
+    parts.push(lh, nm, data);
+    cen.push(new Uint8Array([0x50, 0x4b, 1, 2, 20, 0, 20, 0, 0, 8, 0, 0, 0, 0, 0x21, 0, ...u32(crc), ...u32(sz), ...u32(sz), ...u16(nm.length), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...u32(off)]), nm);
+    off += lh.length + nm.length + sz;
+  });
+  const cs = cen.reduce((a, b) => a + b.length, 0);
+  const end = new Uint8Array([0x50, 0x4b, 5, 6, 0, 0, 0, 0, ...u16(files.length), ...u16(files.length), ...u32(cs), ...u32(off), 0, 0]);
+  return new Blob([...parts, ...cen, end], { type: 'application/zip' });
+}
+function dl(name, blob) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+const README = name => `# ${name}
+
+تم إنشاء هذا الموقع بواسطة **بنّاي**.
+
+## النشر على GitHub Pages
+1. أنشئ مستودعاً جديداً على GitHub (Public).
+2. ارفع الملف \`index.html\` إلى المستودع.
+3. من \`Settings → Pages\` اختر \`Branch: main\` و \`/ (root)\` ثم احفظ.
+4. بعد دقيقة يصبح موقعك على: \`https://USERNAME.github.io/REPO/\`
+`;
+function copyText(t) {
+  if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(t);
+  const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); return Promise.resolve();
+}
+
+function exportMenu(btn) {
+  const w = btn.closest('.menu-w'); const ex = $('.menu', w);
+  if (ex) { ex.remove(); return; }
+  const m = document.createElement('div'); m.className = 'menu';
+  m.innerHTML = `<button data-a="dl-html">${ic('download', 16)}<span>تنزيل index.html<small>ملف واحد جاهز للرفع</small></span></button><button data-a="dl-zip">${ic('zip', 16)}<span>تنزيل ZIP<small>index.html + README</small></span></button><button data-a="dl-json">${ic('json', 16)}<span>نسخة احتياطية JSON<small>للاستيراد لاحقاً</small></span></button><button data-a="code">${ic('code', 16)}<span>عرض الكود</span></button>`;
+  w.appendChild(m);
+}
+document.addEventListener('mousedown', e => { if (!e.target.closest('.menu-w')) $$('.menu').forEach(m => m.remove()); });
+
+function downloadModal() {
+  const html = buildHTML(cur), kb = (new Blob([html]).size / 1024).toFixed(0);
+  const m = modal(`<div class="mh"><h3>تنزيل الموقع</h3><button class="ib" data-a="mx">${ic('x')}</button></div><div class="mb"><p class="hint" style="margin-bottom:14px;font-size:14px">موقعك جاهز! يتحوّل تصميمك إلى كود HTML نظيف (${kb} KB) بدون أي اعتماد على بنّاي — افتحه بأي متصفح أو ارفعه على أي استضافة.</p><div class="dlg">
+  <button class="dlo main" data-a="dl-html"><span class="di">${ic('download', 22)}</span><span><b>تنزيل index.html</b><small>ملف واحد جاهز للرفع على GitHub أو أي استضافة</small></span></button>
+  <button class="dlo" data-a="dl-zip"><span class="di" style="background:var(--p3);color:var(--tx)">${ic('zip', 22)}</span><span><b>تنزيل ZIP</b><small>index.html + ملف README بخطوات النشر</small></span></button>
+  <button class="dlo" id="dlCopy"><span class="di" style="background:var(--p3);color:var(--tx)">${ic('copy', 22)}</span><span><b>نسخ الكود</b><small>انسخه والصقه في أي محرر</small></span></button>
+  <button class="dlo" data-a="code"><span class="di" style="background:var(--p3);color:var(--tx)">${ic('code', 22)}</span><span><b>عرض الكود</b><small>اطّلع على الكود قبل التنزيل</small></span></button>
+  <button class="dlo" data-a="dl-json"><span class="di" style="background:var(--p3);color:var(--tx)">${ic('json', 22)}</span><span><b>نسخة احتياطية (JSON)</b><small>لتعديل المشروع لاحقاً داخل بنّاي</small></span></button></div></div>`);
+  $('#dlCopy', m).onclick = () => copyText(html).then(() => toast('تم نسخ الكود'));
+}
+
+function codeModal() {
+  const html = buildHTML(cur);
+  const m = modal(`<div class="mh"><h3>كود الموقع (${(new Blob([html]).size / 1024).toFixed(0)} KB)</h3><button class="ib" data-a="mx">${ic('x')}</button></div><div class="mb"><textarea class="in code-box" readonly spellcheck="false"></textarea></div><div class="mf"><button class="btn-s" id="cpc">${ic('copy', 15)} نسخ الكود</button><button class="btn-p" data-a="dl-html">${ic('download', 16)} تنزيل index.html</button></div>`, true);
+  $('.code-box', m).value = html;
+  $('#cpc', m).onclick = () => copyText(html).then(() => toast('تم نسخ الكود'));
+}
+
+/* =====================================================================
+   النشر على GitHub
+   ===================================================================== */
+function publishModal() {
+  let tk = '', remember = false, repo = slug(cur.name) || 'my-site';
+  try { tk = localStorage.getItem('bn_gh') || ''; remember = !!tk; const r = localStorage.getItem('bn_repo_' + cur.id); if (r) repo = r; } catch (e) { }
+  const m = modal(`<div class="mh"><h3>${ic('github', 18)} النشر على GitHub Pages</h3><button class="ib" data-a="mx">${ic('x')}</button></div><div class="mb">
+  <p class="hint" style="margin-bottom:14px">يرفع بنّاي موقعك مباشرة إلى حسابك ويفعّل GitHub Pages — بدون ما تفتح الطرمينال.</p>
+  <label class="fl"><span class="fl-l">رمز الوصول (Personal Access Token) — <a href="https://github.com/settings/tokens/new?scopes=repo&description=Bannay" target="_blank" rel="noopener">أنشئ رمزاً بصلاحية repo</a></span><input class="in ltr" id="ghT" type="password" value="${esc(tk)}" placeholder="ghp_…" autocomplete="off"></label>
+  <label class="fl"><span class="fl-l">اسم المستودع (يُنشأ تلقائياً إن لم يوجد)</span><input class="in ltr" id="ghR" value="${esc(repo)}" placeholder="my-site"></label>
+  <label class="chk"><input type="checkbox" id="ghS" ${remember ? 'checked' : ''}><span>تذكّر الرمز على هذا الجهاز فقط</span></label>
+  <p class="hint">🔒 الرمز لا يُرسل لأي مكان سوى api.github.com مباشرة من متصفحك. لحسابك المجاني يجب أن يكون المستودع عاماً (Public). إن فضّلت الرفع يدوياً: حمّل ملف <b>index.html</b> وارفعه لمستودعك.</p>
+  <div class="log" id="ghLog"></div></div>
+  <div class="mf"><button class="btn-s" data-a="dl-html">${ic('download', 15)} تنزيل index.html</button><button class="btn-p" id="ghGo">${ic('rocket', 16)} انشر الآن</button></div>`);
+  const log = (t, cls = '') => { const l = $('#ghLog', m); l.style.display = 'block'; const d = document.createElement('div'); d.className = cls; d.innerHTML = t; l.appendChild(d); l.scrollTop = 1e6; };
+  $('#ghGo', m).onclick = async () => {
+    const token = $('#ghT', m).value.trim(), rp = slug($('#ghR', m).value.trim());
+    if (!token) return toast('أدخل رمز الوصول أولاً', 'warn');
+    if (!rp) return toast('اسم المستودع غير صالح (حروف إنجليزية وأرقام)', 'warn');
+    try { if ($('#ghS', m).checked) localStorage.setItem('bn_gh', token); else localStorage.removeItem('bn_gh'); localStorage.setItem('bn_repo_' + cur.id, rp); } catch (e) { }
+    const btn = $('#ghGo', m); btn.disabled = true;
+    try {
+      const url = await publishGH(token, rp, log);
+      log(`✅ تم النشر! الرابط (قد يحتاج 1–2 دقيقة ليظهر): <a href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a>`, 'ok2');
+      toast('تم الرفع إلى GitHub', 'ok');
+    } catch (e) { log('⚠ ' + esc(e.message || e), 'er'); }
+    btn.disabled = false;
+  };
+}
+async function publishGH(token, repo, log) {
+  const H = { Authorization: 'Bearer ' + token, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
+  const api = async (path, opt = {}) => {
+    const r = await fetch('https://api.github.com' + path, { ...opt, headers: { ...H, ...(opt.body ? { 'Content-Type': 'application/json' } : {}) } });
+    let j = null; try { j = await r.json(); } catch (e) { }
+    return { r, j };
+  };
+  log('التحقق من الحساب…');
+  let { r, j } = await api('/user');
+  if (!r.ok) throw new Error('الرمز غير صالح أو منتهي الصلاحية');
+  const login = j.login;
+  log('البحث عن المستودع ' + esc(login + '/' + repo) + '…');
+  ({ r, j } = await api(`/repos/${login}/${repo}`));
+  let branch = 'main';
+  if (r.status === 404) {
+    log('إنشاء المستودع…');
+    ({ r, j } = await api('/user/repos', { method: 'POST', body: JSON.stringify({ name: repo, description: 'موقع تم إنشاؤه بواسطة بنّاي', auto_init: true, private: false }) }));
+    if (!r.ok) throw new Error('تعذّر إنشاء المستودع: ' + ((j && j.message) || r.status));
+    branch = j.default_branch || 'main';
+    await sleep(1800);
+  } else if (r.ok) { branch = j.default_branch || 'main'; }
+  else throw new Error('تعذّر الوصول للمستودع: ' + ((j && j.message) || r.status));
+  log('رفع index.html…');
+  const g = await api(`/repos/${login}/${repo}/contents/index.html?ref=${encodeURIComponent(branch)}`);
+  const body = { message: 'تحديث الموقع من بنّاي', content: b64(buildHTML(cur)), branch };
+  if (g.r.ok && g.j && g.j.sha) body.sha = g.j.sha;
+  const put = await api(`/repos/${login}/${repo}/contents/index.html`, { method: 'PUT', body: JSON.stringify(body) });
+  if (!put.r.ok) throw new Error('فشل الرفع: ' + ((put.j && put.j.message) || put.r.status));
+  log('تفعيل GitHub Pages…');
+  const pg = await api(`/repos/${login}/${repo}/pages`, { method: 'POST', body: JSON.stringify({ source: { branch, path: '/' } }) });
+  if (!pg.r.ok && pg.r.status !== 409 && pg.r.status !== 422) log('تنبيه: لم يتم تفعيل Pages تلقائياً (' + ((pg.j && pg.j.message) || pg.r.status) + ') — فعّله من Settings → Pages.');
+  return repo.toLowerCase() === (login + '.github.io').toLowerCase() ? `https://${login}.github.io/` : `https://${login}.github.io/${repo}/`;
+}
+
+/* =====================================================================
+   مشاريع: استيراد / نسخ / حذف
+   ===================================================================== */
+function importProject() {
+  const fi = document.createElement('input'); fi.type = 'file'; fi.accept = '.json,application/json';
+  fi.onchange = async () => {
+    const f = fi.files[0]; if (!f) return;
+    try {
+      const p = JSON.parse(await f.text());
+      if (!p || !Array.isArray(p.sections) || typeof p.theme !== 'object') throw new Error('bad');
+      p.id = uid(); p.updated = Date.now(); p.name = (p.name || 'مشروع مستورد');
+      p.sections.forEach(s => { if (!s.id) s.id = uid(); });
+      projects.unshift(p); await DB.put(p); renderDash(); toast('تم استيراد المشروع');
+    } catch (e) { toast('ملف غير صالح', 'err'); }
+  };
+  fi.click();
+}
+
+/* =====================================================================
+   الأوامر (ربط الأزرار)
+   ===================================================================== */
+const ACT = {
+  theme() { ui.theme = ui.theme === 'dark' ? 'light' : 'dark'; try { localStorage.setItem('bn_ui', ui.theme); } catch (e) { } const sc = lastScroll; render(); lastScroll = sc; },
+  import: importProject,
+  new: newProjectModal,
+  mx: closeModal,
+  open(el) { openProject(el.dataset.id); },
+  async 'dup-p'(el) { const p = projects.find(x => x.id === el.dataset.id); const n = clone(p); n.id = uid(); n.name = p.name + ' (نسخة)'; n.updated = Date.now(); projects.unshift(n); await DB.put(n); renderDash(); toast('تم نسخ المشروع'); },
+  'html-p'(el) { const p = projects.find(x => x.id === el.dataset.id); dl('index.html', new Blob([buildHTML(p)], { type: 'text/html' })); },
+  'json-p'(el) { const p = projects.find(x => x.id === el.dataset.id); dl((slug(p.name) || 'project') + '.json', new Blob([JSON.stringify(p)], { type: 'application/json' })); },
+  async 'del-p'(el) { const p = projects.find(x => x.id === el.dataset.id); if (await confirmBox('سيتم حذف «' + p.name + '» نهائياً من هذا المتصفح. خذ نسخة JSON قبل الحذف إن أردت.')) { projects = projects.filter(x => x.id !== p.id); await DB.del(p.id); renderDash(); toast('تم حذف المشروع'); } },
+  async back() { flushHist(); await saveNow(); ui.view = 'dash'; cur = null; render(); },
+  preview() { const u = URL.createObjectURL(new Blob([buildHTML(cur)], { type: 'text/html' })); window.open(u, '_blank'); setTimeout(() => URL.revokeObjectURL(u), 60000); },
+  code: codeModal,
+  exp(el) { exportMenu(el); },
+  'dl-html'() { $$('.menu').forEach(m => m.remove()); dl('index.html', new Blob([buildHTML(cur)], { type: 'text/html' })); },
+  'dl-zip'() { $$('.menu').forEach(m => m.remove()); dl((slug(cur.name) || 'site') + '.zip', makeZip([{ name: 'index.html', data: buildHTML(cur) }, { name: 'README.md', data: README(cur.name) }])); },
+  'dl-json'() { $$('.menu').forEach(m => m.remove()); dl((slug(cur.name) || 'project') + '.json', new Blob([JSON.stringify(cur)], { type: 'application/json' })); },
+  publish: publishModal,
+  download: downloadModal,
+  pickicon(el) { ui.iconT = { r: el.dataset.r, p: el.dataset.p }; const m = modal(`<div class="mh"><h3>اختر أيقونة</h3><button class="ib" data-a="mx">${ic('x')}</button></div><div class="mb"><input class="in" id="icq2" placeholder="ابحث…" style="margin-bottom:12px"><div id="icg2">${iconGrid('')}</div></div>`, true); $('#icq2', m).oninput = e => { $('#icg2', m).innerHTML = iconGrid(e.target.value); }; },
+  ico(el) {
+    const e = el.dataset.e, t = ui.iconT, o = t && rootObj(t.r);
+    if (t && o && (t.r !== 'd' || curSec())) { setP(o, t.p, e); flushHist(); touch(t.r === 't' ? 'theme' : 'sec'); closeModal(); renderRight(); toast('تم إدراج الأيقونة ' + e); }
+    else copyText(e).then(() => toast('تم نسخ ' + e));
+  },
+  dev(el) { ui.device = el.dataset.d; $('#fw').dataset.d = ui.device; $$('.tb-d .ib').forEach(b => b.classList.toggle('on', b.dataset.d === ui.device)); },
+  undo, redo,
+  lpt() { const e = $('#ed'); e.classList.toggle('show-lp'); e.classList.remove('show-pp'); },
+  ppt() { const e = $('#ed'); e.classList.toggle('show-pp'); e.classList.remove('show-lp'); },
+  ltab(el) { ui.ltab = el.dataset.t; renderLeft(); },
+  ptab(el) { ui.ptab = el.dataset.t; renderRight(); },
+  add(el) { addSection(el.dataset.b); },
+  ly(el, e) { e.stopPropagation(); secAct(el.dataset.op, el.closest('.ly').dataset.id); },
+  pal(el) { const p = PALETTES[+el.dataset.i]; cur.theme.primary = p[0]; cur.theme.accent = p[1]; flushHist(); touch('theme'); renderRight(); },
+  mode(el) { const dark = el.dataset.m === 'dark'; cur.theme.bg = dark ? '#0b1020' : '#ffffff'; cur.theme.text = dark ? '#e8ecf6' : '#0f172a'; flushHist(); touch('theme'); renderRight(); },
+  img(el) {
+    const o = rootObj(el.dataset.r), p = el.dataset.p, r = el.dataset.r;
+    pickImage(url => { setP(o, p, url); flushHist(); touch(r === 't' ? 'theme' : 'sec'); renderRight(); });
+  },
+  imgx(el) { const o = rootObj(el.dataset.r); setP(o, el.dataset.p, ''); flushHist(); touch('sec'); renderRight(); },
+  li(el, e) {
+    e.preventDefault(); e.stopPropagation();
+    const s = curSec(); if (!s) return;
+    const r = el.dataset.r, o = rootObj(r), arr = get(o, el.dataset.p), i = +el.dataset.i, op = el.dataset.op;
+    if (!Array.isArray(arr)) return;
+    if (op === 'add') {
+      const f = BLOCKS[s.type].fields.find(x => x.k === el.dataset.p);
+      arr.push(clone(f && f.add ? f.add : {}));
+    } else if (op === 'del') { arr.splice(i, 1); }
+    else if (op === 'up' && i > 0) { [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]]; }
+    else if (op === 'down' && i < arr.length - 1) { [arr[i + 1], arr[i]] = [arr[i], arr[i + 1]]; }
+    flushHist(); touch('sec'); renderRight();
+  }
+};
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-a]');
+  if (!a) return;
+  const fn = ACT[a.dataset.a];
+  if (fn) fn(a, e);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (ui.view !== 'editor' || !(e.ctrlKey || e.metaKey)) return;
+  const k = e.key.toLowerCase(), typing = /INPUT|TEXTAREA|SELECT/.test((document.activeElement || {}).tagName || '');
+  if (k === 's') { e.preventDefault(); saveNow().then(() => toast('تم الحفظ')); }
+  else if (!typing && k === 'z') { e.preventDefault(); e.shiftKey ? redo() : undo(); }
+  else if (!typing && k === 'y') { e.preventDefault(); redo(); }
+});
+document.addEventListener('visibilitychange', () => { if (document.hidden && cur) { flushHist(); saveNow(); } });
+window.addEventListener('pagehide', () => { if (cur) saveNow(); });
+
+/* =====================================================================
+   التشغيل
+   ===================================================================== */
+(async function init() {
+  try { await DB.open(); projects = await DB.all(); }
+  catch (e) { toast('التخزين الدائم غير متاح في هذا المتصفح — لن تُحفظ المشاريع بعد الإغلاق', 'warn'); }
+  projects.sort((a, b) => b.updated - a.updated);
+  render();
+})();
+/*END*/
+})();
+</script>
 </body>
 </html>
