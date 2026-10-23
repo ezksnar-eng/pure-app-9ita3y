@@ -11,12 +11,35 @@
             padding: 0;
         }
         body {
-            background-color: #a2e897; /* نفس اللون الأخضر بالضبط */
+            background-color: #a2e897;
             font-family: Arial, sans-serif;
             padding-bottom: 20px;
         }
 
-        /* الهيدر الأخضر مع اللوجو */
+        .url-bar {
+            background: #222;
+            color: #fff;
+            padding: 8px;
+            display: flex;
+            gap: 5px;
+        }
+        .url-bar input {
+            flex: 1;
+            padding: 6px;
+            font-size: 12px;
+            border: 1px solid #555;
+            background: #fff;
+            color: #000;
+        }
+        .url-bar button {
+            padding: 6px 12px;
+            background: #5ebd50;
+            color: #fff;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
         .mobile-header {
             background-color: #5ebd50;
             padding: 10px 15px;
@@ -31,13 +54,7 @@
             font-weight: bold;
             text-shadow: 1px 1px 2px #000;
         }
-        .menu-icon {
-            font-size: 24px;
-            color: #000;
-            cursor: pointer;
-        }
 
-        /* شريط وضع الرابط / البحث */
         .search-container {
             padding: 10px;
             text-align: center;
@@ -53,13 +70,11 @@
             border: 1px solid #777;
             background: #fff;
             font-size: 14px;
-            box-sizing: border-box;
         }
 
-        /* شبكة الصور - عمودين للموبايل */
         .image-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* عمودين نفس الصورة بالضبط */
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
             padding: 10px;
         }
@@ -79,57 +94,87 @@
             height: 100%;
             object-fit: cover;
         }
-
-        /* شريط إدخال الرابط الخاص بيك */
-        .url-bar {
-            background: #333;
-            color: #fff;
-            padding: 8px;
-            display: flex;
-            gap: 5px;
-        }
-        .url-bar input {
-            flex: 1;
-            padding: 5px;
-        }
-        .url-bar button {
-            padding: 5px 10px;
+        .status-msg {
+            grid-column: span 2;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <!-- شريط الرابط مالتك -->
+    <!-- شريط الرابط -->
     <div class="url-bar">
-        <input type="text" id="targetUrl" placeholder="أدخل الرابط هنا...">
+        <input type="text" id="targetUrl" placeholder="حط الرابط أو اتركها واضغط عرض لتجربة التاغات...">
         <button onclick="loadData()">عرض</button>
     </div>
 
-    <!-- الهيدر الأخضر -->
     <div class="mobile-header">
         <h1>Rule 34</h1>
-        <div class="menu-icon">☰</div>
+        <div style="font-size:20px; font-weight:bold;">☰</div>
     </div>
 
-    <!-- مربع البحث -->
     <div class="search-container">
         <div class="search-title">Search</div>
-        <input type="text" class="search-input" placeholder="Search tags...">
+        <input type="text" id="tagInput" class="search-input" placeholder="اكتب Tag واضغط عرض (مثلاً: cat)...">
     </div>
 
-    <!-- معرض الصور (صفين) -->
+    <!-- شبكة الصور -->
     <div class="image-grid" id="grid">
-        <div class="image-card"><img src="https://via.placeholder.com/150" alt="img"></div>
-        <div class="image-card"><img src="https://via.placeholder.com/150" alt="img"></div>
-        <div class="image-card"><img src="https://via.placeholder.com/150" alt="img"></div>
-        <div class="image-card"><img src="https://via.placeholder.com/150" alt="img"></div>
+        <div class="status-msg">اضغط على زر "عرض" لجلب الصور</div>
     </div>
 
     <script>
-        function loadData() {
-            const url = document.getElementById('targetUrl').value;
-            if(!url) return alert('حط الرابط أولاً');
-            console.log("Loading: " + url);
+        async function loadData() {
+            const grid = document.getElementById('grid');
+            const customUrl = document.getElementById('targetUrl').value.trim();
+            const tag = document.getElementById('tagInput').value.trim();
+            
+            grid.innerHTML = '<div class="status-msg">جاري تحميل الصور...</div>';
+
+            // إذا ما حطيت رابط، راح يجيب من الـ API المباشر مالهم حسب الـ Tag
+            let fetchUrl = customUrl;
+            if (!fetchUrl) {
+                const searchTag = tag ? encodeURIComponent(tag) : 'all';
+                fetchUrl = `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&json=1&limit=20&tags=${searchTag}`;
+            }
+
+            try {
+                // نستخدم بروكسي مجاني لتجاوز حظر CORS بالموبايل
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(fetchUrl)}`;
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                
+                let posts = [];
+                try {
+                    posts = JSON.parse(data.contents);
+                } catch(e) {
+                    posts = data.contents;
+                }
+
+                grid.innerHTML = '';
+
+                if (!posts || posts.length === 0) {
+                    grid.innerHTML = '<div class="status-msg">ماكو نتائج أو الرابط غلط!</div>';
+                    return;
+                }
+
+                posts.forEach(post => {
+                    // تجريب استخراج رابط الصورة
+                    const imgUrl = post.file_url || post.sample_url || post.preview_url;
+                    if (imgUrl) {
+                        const card = document.createElement('div');
+                        card.className = 'image-card';
+                        card.innerHTML = `<img src="${imgUrl}" loading="lazy" onclick="window.open('${imgUrl}', '_blank')">`;
+                        grid.appendChild(card);
+                    }
+                });
+
+            } catch (err) {
+                console.error(err);
+                grid.innerHTML = '<div class="status-msg">صار خطأ بالسحب! اتأكد من الرابط أو شبكة النت.</div>';
+            }
         }
     </script>
 </body>
